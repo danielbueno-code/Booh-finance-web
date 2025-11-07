@@ -627,3 +627,14 @@ header {
   box-shadow: 0 0 30px rgba(0,175,216,0.25);
   object-fit: cover;
 }
+
+
+@media (max-width: 768px) {
+  #ai {
+    padding-top: 3rem;
+  }
+  #ai .ai-image img {
+    margin-top: 0.5rem;
+    max-width: 90%;
+  }
+}
