@@ -22,7 +22,9 @@
       margin: 0 auto;
     }
 
-    #simulator h2 { color: #00AFD8; margin-bottom: 1rem; }
+    #simulator h2 { color: #00AFD8; margin-bottom: 1rem; 
+      margin-top: 40px;
+    }
 
     .simu {
       display: grid;
@@ -114,6 +116,23 @@
         <div class="field">
           <label>Modelo</label>
           <select id="mode">
+            <div class="field">
+  <label>Ventas totales del último mes (€)</label>
+  <input id="monthlySales" type="number" min="0" step="100" value="10000" required>
+  <small id="salesInfo" style="color:#B0B3B8;display:block;margin-top:4px">
+    Introduce tus ventas del último mes para estimar comisión y crédito.
+  </small>
+</div>
+
+<div class="field">
+  <label>Comisión aplicada (%)</label>
+  <input id="commission" type="text" readonly>
+</div>
+
+<div class="field">
+  <label>Capacidad de crédito estimada (€)</label>
+  <input id="creditCap" type="text" readonly>
+</div>
             <option value="rbf">% de ventas (Revenue-based)</option>
             <option value="fixed">Cuota fija</option>
           </select>
@@ -188,6 +207,44 @@
     const outDur = document.getElementById("outDuration");
     const outCost = document.getElementById("outCost");
     const scheduleEl = document.getElementById("schedule");
+// === Cálculo de comisión y capacidad según ventas ===
+const monthlySalesEl = document.getElementById("monthlySales");
+const commissionEl = document.getElementById("commission");
+const creditCapEl = document.getElementById("creditCap");
+
+function updateCreditCapacity() {
+  const sales = +monthlySalesEl.value || 0;
+  let commission = 0;
+  let multiplier = 0;
+
+  // Escalas según volumen de ventas
+  if (sales < 3000) {
+    commission = 15;
+    multiplier = 0.5;
+  } else if (sales < 8000) {
+    commission = 12;
+    multiplier = 0.8;
+  } else if (sales < 15000) {
+    commission = 10;
+    multiplier = 1.0;
+  } else if (sales < 25000) {
+    commission = 8;
+    multiplier = 1.2;
+  } else {
+    commission = 7;
+    multiplier = 1.4;
+  }
+
+  const credit = Math.round(sales * multiplier);
+  commissionEl.value = commission.toFixed(1) + " %";
+  creditCapEl.value = credit.toLocaleString("es-ES") + " €";
+}
+
+// actualizar automáticamente al escribir
+monthlySalesEl.addEventListener("input", updateCreditCapacity);
+
+// inicializar al cargar
+updateCreditCapacity();
 
     function euro(n){return n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});}
 
