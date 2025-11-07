@@ -32,12 +32,12 @@ header {
   height: 40px;
 }
 .hero {
-  background: url('img/hero.jpg') center/cover no-repeat;
+  background: url('img/hero.png') center/cover no-repeat;
   text-align: center;
   padding: 150px 20px 100px;
 }
 h1, h2 {
-  color: #00AFD8;
+  color: #FFFFFF;
 }
 button {
   background-color: #00AFD8;
