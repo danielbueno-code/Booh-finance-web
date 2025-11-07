@@ -19,21 +19,34 @@ document.addEventListener("DOMContentLoaded", () => {
   fadeEls.forEach(el => observer.observe(el));
 });
 
-// ===== MENÚ HAMBURGUESA =====
+// ===== MENÚ HAMBURGUESA ROBUSTO =====
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector(".navbar ul");
+  const toggle = document.getElementById("menu-toggle");
+  const nav = document.getElementById("nav-links");
+
+  if (!toggle || !nav) return;
+
+  const closeMenu = () => {
+    toggle.classList.remove("active");
+    nav.classList.remove("show");
+    toggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = ""; // re-habilita scroll
+  };
+
+  const openMenu = () => {
+    toggle.classList.add("active");
+    nav.classList.add("show");
+    toggle.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden"; // bloquea scroll de fondo
+  };
 
   toggle.addEventListener("click", () => {
-    toggle.classList.toggle("active");
-    navLinks.classList.toggle("show");
+    const isOpen = nav.classList.contains("show");
+    isOpen ? closeMenu() : openMenu();
   });
 
-  // Cierra el menú al hacer clic en un enlace
-  navLinks.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      toggle.classList.remove("active");
-      navLinks.classList.remove("show");
-    });
-  });
+  // Cierra al pulsar un enlace
+  nav.querySelectorAll("a").forEach(a =>
+    a.addEventListener("click", closeMenu)
+  );
 });
