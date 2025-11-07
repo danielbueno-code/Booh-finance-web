@@ -1030,3 +1030,150 @@ header {
     margin-top: 1rem;
   }
 }
+
+/* ===== IA Scoring ===== */
+#scoring {
+  background: #0E1015;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 4rem 2rem;
+  text-align: left;
+}
+
+#scoring h2 {
+  color: #00AFD8;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.scoring-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.scoring-image {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.scoring-image img {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0,175,216,0.2);
+}
+
+.scoring-text {
+  flex: 1.1;
+  min-width: 320px;
+}
+
+.score-list {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.score-list li {
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+  color: #D0D2D6;
+}
+
+.score-table {
+  margin-top: 1.5rem;
+  background: #1A1C22;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.score-table h3 {
+  color: #00AFD8;
+  margin-bottom: 0.8rem;
+}
+
+.score-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.score-table th, .score-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #E4E5E7;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.tag-low  { background: rgba(0,200,120,0.15); color: #20d08a; }
+.tag-mid  { background: rgba(250,180,70,0.15); color: #ffbf55; }
+.tag-high { background: rgba(255,90,90,0.15); color: #ff6b6b; }
+
+/* ===== Tooltips ===== */
+.tooltip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted rgba(255,255,255,0.5);
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20,22,30,0.95);
+  color: #F4F4F4;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  padding: 6px 10px;
+  border-radius: 6px;
+  width: 220px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .scoring-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .scoring-image img {
+    max-width: 90%;
+    margin-bottom: 1.5rem;
+  }
+
+  .score-table table {
+    font-size: 0.9rem;
+  }
+
+  .tooltip::after {
+    bottom: 115%;
+    width: 180px;
+  }
+  }
