@@ -1,260 +1,343 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador de crédito | Booh! Finance</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de crédito | Booh Finance</title>
+
+  <!-- Fuentes y estilos -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="menu.js?v=6" defer></script>
+
   <style>
-    :root{
-      --booh-blue:#00AFD8;
-      --bg-dark:#0B0C10;
-      --bg-card:#1A1C22;
-      --text:#F4F4F4;
-      --muted:#B0B3B8;
-      --radius:14px;
+    /* ===== Ajustes locales del simulador ===== */
+    body {
+      background: #0B0C10;
+      color: #F4F4F4;
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg-dark);color:var(--text);font-family:'Roboto',sans-serif;line-height:1.6}
-    
-    /* === HEADER === */
-    header{
-      position:fixed;top:0;left:0;width:100%;z-index:3000;
-      background:rgba(11,12,16,0.85);backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
-    }
-    .navbar{
-      max-width:1200px;margin:0 auto;padding:14px 20px;
-      display:flex;align-items:center;justify-content:space-between;
-    }
-    .navbar .logo{height:34px;width:auto;}
-    .navbar ul{list-style:none;display:flex;gap:22px;align-items:center;margin:0;padding:0;}
-    .navbar a{
-      color:var(--muted);text-decoration:none;font-weight:500;transition:color .3s ease;
-    }
-    .navbar a:hover{color:var(--booh-blue);}
-    @media (max-width:768px){.navbar ul{flex-wrap:wrap;justify-content:center;gap:14px}}
 
-    /* === CONTENIDO === */
-    main{padding-top:80px;}
-
-    section{padding:3rem 1.5rem;max-width:1100px;margin:0 auto}
-    #simulator h2{color:var(--booh-blue);margin-bottom:1rem;
-      margin-top:40px;
+    main {
+      padding-top: 90px;
     }
-    .simu{display:grid;gap:2rem;grid-template-columns:1fr 1.2fr}
-    .simu-form{background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:1.25rem;display:grid;gap:1rem}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    .field{display:grid;gap:.35rem}
-    .field label{color:var(--muted);font-size:.95rem}
-    .field input,.field select{background:#12141C;color:var(--text);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;outline:none;transition:.2s}
-    .field input:focus,.field select:focus{border-color:var(--booh-blue);box-shadow:0 0 0 3px rgba(0,175,216,.15)}
-    .hint{color:var(--muted);font-size:.85rem}
-    .readonly{background:#101218;color:var(--booh-blue);font-weight:600}
-    .cta{background:var(--booh-blue);color:#061017;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:.25s}
-    .cta:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,175,216,.35)}
-    .simu-result .cards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .simu-result .card{background:var(--bg-card);border-radius:var(--radius);padding:1rem;border:1px solid rgba(255,255,255,.06)}
-    .simu-result .card h4{color:var(--booh-blue);margin-bottom:.4rem}
-    .simu-result .card p{font-size:1.15rem}
-    .schedule{margin-top:1rem;background:rgba(26,28,34,.6);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:auto;max-height:420px}
-    .schedule table{width:100%;border-collapse:collapse;font-size:.95rem}
-    .schedule th,.schedule td{padding:.75rem .9rem;border-bottom:1px solid rgba(255,255,255,.06);text-align:right}
-    .schedule th:first-child,.schedule td:first-child{text-align:left}
-    .legend{margin-top:1rem;border-left:3px solid var(--booh-blue);padding:.75rem 1rem;background:#12151d;border-radius:8px;color:var(--muted);font-size:.9rem}
-    @media (max-width:900px){.simu{grid-template-columns:1fr}}
+
+    section {
+      padding: 3rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    #simulator h2 {
+      color: #00AFD8;
+      margin-bottom: 1rem;
+      margin-top: 40px;
+    }
+
+    .simu {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .simu-form {
+      background: #1A1C22;
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .field label {
+      color: #B0B3B8;
+      font-size: .95rem;
+    }
+
+    .field input,
+    .field select {
+      background: #12141C;
+      color: #F4F4F4;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #00AFD8;
+      box-shadow: 0 0 0 3px rgba(0, 175, 216, .15);
+    }
+
+    .hint {
+      color: #B0B3B8;
+      font-size: .85rem;
+    }
+
+    .readonly {
+      background: #101218;
+      color: #00AFD8;
+      font-weight: 600;
+    }
+
+    .cta {
+      background: #00AFD8;
+      color: #061017;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(0, 175, 216, .35);
+    }
+
+    .simu-result .cards {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .simu-result .card {
+      background: #1A1C22;
+      border-radius: 14px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .simu-result .card h4 {
+      color: #00AFD8;
+      margin-bottom: .4rem;
+    }
+
+    .simu-result .card p {
+      font-size: 1.15rem;
+    }
+
+    .schedule {
+      margin-top: 1rem;
+      background: rgba(26, 28, 34, .6);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 12px;
+      overflow: auto;
+      max-height: 420px;
+    }
+
+    .schedule table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .95rem;
+    }
+
+    .schedule th,
+    .schedule td {
+      padding: .75rem .9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      text-align: right;
+    }
+
+    .schedule th:first-child,
+    .schedule td:first-child {
+      text-align: left;
+    }
+
+    @media (max-width: 900px) {
+      .simu {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <<header>
-    
+  <!-- ===== HEADER ===== -->
+  <header>
     <nav class="navbar">
-  <img src="img/logo-booh.png" alt="Booh Finance" class="logo">
-  <ul id="nav-links">
-    <li><a href="#home">Inicio</a></li>
+      <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
+    <ul id="nav-links">
+    <li><a href="index.html/#home">Inicio</a></li>
     <li><a href="#how">Cómo funciona</a></li>
-    <li><a href="#benefits">Ventajas</a></li>
-    <li><a href="#ai">IA Pricing</a></li>
-    <li><a href="#testimonials">Casos reales</a></li>
-    <li><a href="#contact">Contacto</a></li>
+    <li><a href="index.html/#benefits">Ventajas</a></li>
+    <li><a href="index.html/#ai">IA Pricing</a></li>
+        <li><a href="simulador.html">Simulador</a></li>
+    <li><a href="index.html/#testimonials">Casos reales</a></li>
+    <li><a href="index.html/#contact">Contacto</a></li>
   </ul>
-  <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+      <button class="menu-toggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
 
+  <!-- ===== CONTENIDO ===== -->
   <main>
-  <section id="simulator">
-    <h2>Calcula tu crédito</h2>
+    <section id="simulator">
+      <h2>Calcula tu crédito Booh Finance</h2>
 
-    <div class="simu">
-      <!-- FORMULARIO -->
-      <form class="simu-form" id="simuForm">
-        <div class="field">
-          <label>Ventas totales del último mes (€)</label>
-          <input id="monthlySales" type="number" min="0" step="100" value="12000" required>
-          <div class="hint">Usamos este dato para estimar tu <b>comisión</b>, <b>capacidad de crédito</b> e <b>interés anual</b>.</div>
-        </div>
-
-        <div class="grid-2">
+      <div class="simu">
+        <form class="simu-form" id="simuForm">
           <div class="field">
-            <label>Comisión aplicada (%)</label>
-            <input id="commission" class="readonly" type="text" readonly>
+            <label>Ventas totales del último mes (€)</label>
+            <input id="monthlySales" type="number" min="0" step="100" value="10000" required>
+            <div class="hint">Usamos tus ventas para calcular la comisión, crédito máximo y devolución estimada.</div>
           </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>Comisión aplicada (%)</label>
+              <input id="commission" class="readonly" type="text" readonly>
+            </div>
+            <div class="field">
+              <label>Crédito máximo disponible (€)</label>
+              <input id="creditCap" class="readonly" type="text" readonly>
+            </div>
+          </div>
+
           <div class="field">
-            <label>Interés anual estimado (APR)</label>
-            <input id="apr" class="readonly" type="text" readonly>
+            <label>Importe solicitado (€)</label>
+            <input id="amount" type="number" min="2000" max="15000" step="100" required>
+            <div class="hint">El crédito máximo depende de tus ventas, con un tope de 15.000 €.</div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Capacidad de crédito estimada (€)</label>
-          <input id="creditCap" class="readonly" type="text" readonly>
-        </div>
-
-        <div class="field">
-          <label>Modelo</label>
-          <select id="mode">
-            <option value="rbf">% de ventas (Revenue-based)</option>
-            <option value="fixed">Cuota fija</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Importe solicitado (€)</label>
-          <input id="amount" type="number" value="12000" min="100" step="100" required>
-          <div class="hint">Se precarga con tu capacidad estimada. Puedes ajustarlo.</div>
-        </div>
-
-        <div class="rbf-only">
           <div class="grid-2">
             <div class="field">
               <label>Fee único del crédito (%)</label>
-              <input id="fee" type="number" value="10" min="0" step="0.1">
+              <input id="fee" type="number" value="10" min="6" max="12" step="0.1">
             </div>
             <div class="field">
               <label>% devolución sobre ventas</label>
-              <input id="takeRate" type="number" value="15" min="1" max="50" step="1">
+              <input id="takeRate" type="number" value="15" min="5" max="30" step="1">
             </div>
           </div>
-          <div class="field">
-            <label>Meses máx. (tope)</label>
-            <input id="capMonths" type="number" value="6" min="1" max="24">
+
+          <button type="submit" class="cta">Calcular</button>
+          <p class="hint">⚠️ Los créditos Booh Finance tienen un plazo máximo de 6 meses. Al vencer, el crédito se liquida automáticamente.</p>
+        </form>
+
+        <div class="simu-result" id="simuResult">
+          <div class="cards">
+            <div class="card"><h4>Total a devolver</h4><p id="outTotal">—</p></div>
+            <div class="card"><h4>Pago mensual estimado</h4><p id="outMonthly">—</p></div>
+            <div class="card"><h4>Duración estimada</h4><p id="outDuration">—</p></div>
+            <div class="card"><h4>Coste total (fee)</h4><p id="outCost">—</p></div>
           </div>
+          <div class="schedule" id="schedule"></div>
         </div>
-
-        <div class="fixed-only" style="display:none">
-          <div class="field">
-            <label>Plazo (meses)</label>
-            <input id="months" type="number" value="6" min="1" max="60">
-          </div>
-        </div>
-
-        <button type="submit" class="cta">Calcular</button>
-      </form>
-
-      <!-- RESULTADOS -->
-      <div class="simu-result" id="simuResult">
-        <div class="cards">
-          <div class="card"><h4>Total a devolver</h4><p id="outTotal">—</p></div>
-          <div class="card"><h4>Cuota/Devolución estimada</h4><p id="outMonthly">—</p></div>
-          <div class="card"><h4>Duración estimada</h4><p id="outDuration">—</p></div>
-          <div class="card"><h4>Coste total</h4><p id="outCost">—</p></div>
-        </div>
-        <div class="schedule" id="schedule"></div>
       </div>
-    </div>
-  </section>
+    </section>
   </main>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("simuForm");
-  const modeEl = document.getElementById("mode");
-  const monthlyEl = document.getElementById("monthlySales");
-  const commissionEl = document.getElementById("commission");
-  const aprEl = document.getElementById("apr");
-  const capEl = document.getElementById("creditCap");
-  const amountEl = document.getElementById("amount");
-  const feeEl = document.getElementById("fee");
-  const takeEl = document.getElementById("takeRate");
-  const capMonthsEl = document.getElementById("capMonths");
-  const monthsEl = document.getElementById("months");
-  const outTotal = document.getElementById("outTotal");
-  const outMonthly = document.getElementById("outMonthly");
-  const outDur = document.getElementById("outDuration");
-  const outCost = document.getElementById("outCost");
-  const scheduleEl = document.getElementById("schedule");
+  <!-- ===== SCRIPT PRINCIPAL ===== -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("simuForm");
+    const monthlyEl = document.getElementById("monthlySales");
+    const commissionEl = document.getElementById("commission");
+    const capEl = document.getElementById("creditCap");
+    const amountEl = document.getElementById("amount");
+    const feeEl = document.getElementById("fee");
+    const takeEl = document.getElementById("takeRate");
+    const outTotal = document.getElementById("outTotal");
+    const outMonthly = document.getElementById("outMonthly");
+    const outDur = document.getElementById("outDuration");
+    const outCost = document.getElementById("outCost");
+    const scheduleEl = document.getElementById("schedule");
 
-  const euro = n => (n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"});
+    const euro = n => (n || 0).toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
-  function policyFromSales(s){
-    if(s<3000) return {commission:15,mult:0.5,apr:18};
-    if(s<8000) return {commission:12,mult:0.8,apr:15};
-    if(s<15000)return {commission:10,mult:1.0,apr:12};
-    if(s<25000)return {commission:8,mult:1.2,apr:9};
-    return {commission:7,mult:1.4,apr:7};
-  }
+    // --- Política Booh Finance ---
+    function policyFromSales(sales) {
+      if (sales < 5000) return { commission: 12, credit: 2000 };
+      if (sales < 8000) return { commission: 10, credit: 5000 };
+      if (sales < 12000) return { commission: 8, credit: 8000 };
+      if (sales < 16000) return { commission: 7, credit: 12000 };
+      return { commission: 6, credit: 15000 };
+    }
 
-  function updateProfile(){
-    const s=+monthlyEl.value||0;
-    const {commission,mult,apr}=policyFromSales(s);
-    const credit=Math.round(s*mult);
-    commissionEl.value=commission.toFixed(1)+" %";
-    aprEl.value=apr.toFixed(1)+" %";
-    capEl.value=credit.toLocaleString("es-ES")+" €";
-    if(!amountEl.dataset.touched) amountEl.value=credit;
-  }
-  amountEl.addEventListener("input",()=>amountEl.dataset.touched="1");
-  monthlyEl.addEventListener("input",updateProfile);
+    function updateProfile() {
+      const sales = +monthlyEl.value || 0;
+      const { commission, credit } = policyFromSales(sales);
+      commissionEl.value = commission.toFixed(1) + " %";
+      capEl.value = credit.toLocaleString("es-ES") + " €";
 
-  function toggleMode(){
-    const isRbf=modeEl.value==="rbf";
-    document.querySelectorAll(".rbf-only").forEach(e=>e.style.display=isRbf?"":"none");
-    document.querySelectorAll(".fixed-only").forEach(e=>e.style.display=isRbf?"none":"");
-  }
-  modeEl.addEventListener("change",toggleMode);
+      const requested = +amountEl.value || 0;
+      if (!amountEl.dataset.touched || requested > credit || requested < 2000) {
+        amountEl.value = credit;
+      }
+    }
 
-  function renderTable(h,rows){
-    const th="<thead><tr>"+h.map(x=>`<th>${x}</th>`).join("")+"</tr></thead>";
-    const tb="<tbody>"+rows.map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join("")+"</tr>").join("")+"</tbody>";
-    scheduleEl.innerHTML=`<table>${th}${tb}</table>`;
-  }
+    amountEl.addEventListener("input", () => (amountEl.dataset.touched = "1"));
+    monthlyEl.addEventListener("input", updateProfile);
 
-  function calcRBF(){
-    const A=+amountEl.value||0,fee=(+feeEl.value||0)/100,sales=+monthlyEl.value||0,take=(+takeEl.value||0)/100,capM=+capMonthsEl.value||6;
-    const target=A*(1+fee),pay=sales*take;
-    let rem=target,m=0,rows=[];
-    while(rem>0&&m<capM){m++;const p=Math.min(pay,rem);const b=rem;rem-=p;rows.push([m,euro(b),euro(p),euro(rem>0?rem:0)]);}
-    outTotal.textContent=euro(target);
-    outMonthly.textContent=euro(pay)+" (estimado)";
-    outDur.textContent=m+" meses";
-    outCost.textContent=euro(target-A);
-    renderTable(["Mes","Pendiente","Pago","Restante"],rows);
-  }
+    // --- Cálculo RBF (fase única) ---
+    function calcRBF() {
+      const A = +amountEl.value || 0;
+      const fee = (+feeEl.value || 0) / 100;
+      const sales = +monthlyEl.value || 0;
+      const take = (+takeEl.value || 0) / 100;
+      const capM = 6; // máximo 6 meses
 
-  function calcFixed(){
-    const A=+amountEl.value||0,n=+monthsEl.value||1,apr=parseFloat(aprEl.value)||0,r=apr/100/12;
-    const pmt=r===0?A/n:A*(r/(1-Math.pow(1+r,-n)));
-    let bal=A,rows=[];
-    for(let i=1;i<=n;i++){const int=bal*r,prin=Math.min(pmt-int,bal);bal-=prin;rows.push([i,euro(prin),euro(int),euro(pmt),euro(Math.max(bal,0))]);if(bal<=0)break;}
-    const total=pmt*rows.length;
-    outTotal.textContent=euro(total);
-    outMonthly.textContent=euro(pmt);
-    outDur.textContent=rows.length+" meses";
-    outCost.textContent=euro(total-A);
-    renderTable(["Mes","Amortización","Interés","Cuota","Restante"],rows);
-  }
+      const target = A * (1 + fee);
+      const monthlyPay = sales * take;
 
-  form.addEventListener("submit",e=>{
-    e.preventDefault();
-    modeEl.value==="rbf"?calcRBF():calcFixed();
+      let remaining = target;
+      let month = 0;
+      const rows = [];
+
+      while (remaining > 0 && month < capM) {
+        month++;
+        const pay = Math.min(monthlyPay, remaining);
+        const before = remaining;
+        remaining -= pay;
+        rows.push([month, euro(before), euro(pay), euro(Math.max(remaining, 0))]);
+      }
+
+      outTotal.textContent = euro(target);
+      outMonthly.textContent = euro(monthlyPay) + " (estimado)";
+      outDur.textContent = month + " meses";
+      outCost.textContent = euro(target - A);
+
+      renderTable(["Mes", "Pendiente", "Pago", "Restante"], rows);
+
+      if (remaining > 0) {
+        const aviso = document.createElement("div");
+        aviso.style = "margin-top:10px;color:#ffb347;font-weight:500;";
+        aviso.textContent = "⚠️ Plazo máximo 6 meses. El crédito vence al finalizar este periodo.";
+        scheduleEl.appendChild(aviso);
+      }
+    }
+
+    function renderTable(headers, rows) {
+      const thead = "<thead><tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr></thead>";
+      const tbody = "<tbody>" + rows.map(r => "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>").join("") + "</tbody>";
+      scheduleEl.innerHTML = `<table>${thead}${tbody}</table>`;
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      calcRBF();
+    });
+
+    updateProfile();
   });
-
-  updateProfile();toggleMode();
-});
-</script>
+  </script>
 </body>
 </html>
