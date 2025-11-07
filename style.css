@@ -289,3 +289,67 @@ footer{
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ===== MENÚ HAMBURGUESA ===== */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2000;
+}
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Estado activo (cruz) */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* En móvil */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+
+  .navbar ul {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    flex-direction: column;
+    background: rgba(26, 28, 34, 0.98);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px;
+    gap: 12px;
+    transform: scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .navbar ul.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  .navbar ul li a {
+    color: var(--text);
+    font-weight: 500;
+  }
+}
