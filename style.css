@@ -743,3 +743,157 @@ header {
     margin-top: 1rem !important;
   }
 }
+
+
+/*simulador*/
+
+    #simulator h2 {
+      color: #00AFD8;
+      margin-bottom: 1rem;
+      margin-top: 40px;
+    }
+
+    .simu {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .simu-form {
+      background: #1A1C22;
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .field label {
+      color: #B0B3B8;
+      font-size: .95rem;
+    }
+
+    .field input,
+    .field select {
+      background: #12141C;
+      color: #F4F4F4;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #00AFD8;
+      box-shadow: 0 0 0 3px rgba(0, 175, 216, .15);
+    }
+
+    .hint {
+      color: #B0B3B8;
+      font-size: .85rem;
+    }
+
+    .readonly {
+      background: #101218;
+      color: #00AFD8;
+      font-weight: 600;
+    }
+
+    .cta {
+      background: #00AFD8;
+      color: #061017;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(0, 175, 216, .35);
+    }
+
+    .simu-result .cards {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .simu-result .card {
+      background: #1A1C22;
+      border-radius: 14px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .simu-result .card h4 {
+      color: #00AFD8;
+      margin-bottom: .4rem;
+    }
+
+    .simu-result .card p {
+      font-size: 1.15rem;
+    }
+
+    .schedule {
+      margin-top: 1rem;
+      background: rgba(26, 28, 34, .6);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 12px;
+      overflow: auto;
+      max-height: 420px;
+    }
+
+    .schedule table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .95rem;
+    }
+
+    .schedule th,
+    .schedule td {
+      padding: .75rem .9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      text-align: right;
+    }
+
+    .schedule th:first-child,
+    .schedule td:first-child {
+      text-align: left;
+    }
+
+    @media (max-width: 900px) {
+      .simu {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* ===== Ajuste tamaño logo Booh Finance ===== */
+.navbar .logo {
+  height: 58px !important;  /* antes 34px */
+  width: auto;
+  object-fit: contain;
+  transition: height 0.3s ease;
+}
+
+/* Un poco más pequeño en móvil */
+@media (max-width: 768px) {
+  .navbar .logo {
+    height: 50px !important;
+  }
+      }
