@@ -1209,3 +1209,123 @@ header {
   #scoring{ padding:48px 12px; }
   .score-table th,.score-table td{ padding:10px 12px; }
   }
+
+
+/* === Ventajas (Sección Benefits) === */
+#benefits {
+  background: linear-gradient(180deg, #0B0C10 0%, #0E1015 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 4rem 2rem;
+  color: #F4F4F4;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#benefits::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle at center, rgba(0, 175, 216, 0.1) 0%, transparent 70%);
+  z-index: 0;
+}
+
+#benefits h2 {
+  position: relative;
+  z-index: 1;
+  color: #00AFD8;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 800;
+}
+
+#benefits .benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+  max-width: 950px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  position: relative;
+  z-index: 1;
+}
+
+/* Tarjetas individuales */
+#benefits .benefits li {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem 1.2rem;
+  font-size: 1.05rem;
+  color: #E8EAED;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  backdrop-filter: blur(4px);
+}
+
+/* Íconos decorativos opcionales */
+#benefits .benefits li::before {
+  content: "✨";
+  display: block;
+  font-size: 1.6rem;
+  color: #00AFD8;
+  margin-bottom: 0.6rem;
+  transition: transform 0.25s ease;
+}
+
+/* Hover / efecto visual */
+#benefits .benefits li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 175, 216, 0.25);
+  border-color: rgba(0, 175, 216, 0.3);
+}
+
+#benefits .benefits li:hover::before {
+  transform: scale(1.3) rotate(5deg);
+}
+
+/* Botón CTA debajo de las ventajas */
+#benefits button {
+  margin-top: 2rem;
+  background: #00AFD8;
+  color: #0B0C10;
+  font-weight: 700;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 24px rgba(0,175,216,0.3);
+}
+
+#benefits button:hover {
+  background: #04C3F0;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0,175,216,0.4);
+}
+
+/* Modo responsive */
+@media (max-width: 768px) {
+  #benefits {
+    padding: 3rem 1.2rem;
+  }
+  #benefits .benefits li {
+    font-size: 1rem;
+  }
+  #benefits h2 {
+    font-size: 1.8rem;
+  }
+}
