@@ -16,15 +16,8 @@
     }
     header h1 { color: #00AFD8; font-size: 1.8rem; margin: 0; }
 
-    section {
-      padding: 3rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    #simulator h2 { color: #00AFD8; margin-bottom: 1rem; 
-      margin-top: 40px;
-    }
+    section { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; }
+    #simulator h2 { color: #00AFD8; margin-bottom: 1rem; }
 
     .simu {
       display: grid;
@@ -55,6 +48,12 @@
     .field input:focus, .field select:focus {
       border-color: #00AFD8;
       box-shadow: 0 0 0 3px rgba(0,175,216,.15);
+    }
+
+    #commission, #creditCap {
+      background: #101218;
+      color: #00AFD8;
+      font-weight: 600;
     }
 
     .cta {
@@ -99,9 +98,7 @@
     }
     .schedule th:first-child, .schedule td:first-child { text-align: left; }
 
-    @media (max-width: 900px) {
-      .simu { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px) { .simu { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -113,26 +110,30 @@
     <h2>Calcula tu crédito</h2>
     <div class="simu">
       <form class="simu-form" id="simuForm">
+
+        <!-- Nuevo: Ventas y capacidad -->
+        <div class="field">
+          <label>Ventas totales del último mes (€)</label>
+          <input id="monthlySales" type="number" min="0" step="100" value="10000" required>
+          <small id="salesInfo" style="color:#B0B3B8;display:block;margin-top:4px">
+            Introduce tus ventas del último mes para estimar comisión y crédito.
+          </small>
+        </div>
+
+        <div class="field">
+          <label>Comisión aplicada (%)</label>
+          <input id="commission" type="text" readonly>
+        </div>
+
+        <div class="field">
+          <label>Capacidad de crédito estimada (€)</label>
+          <input id="creditCap" type="text" readonly>
+        </div>
+
+        <!-- Modo de crédito -->
         <div class="field">
           <label>Modelo</label>
           <select id="mode">
-            <div class="field">
-  <label>Ventas totales del último mes (€)</label>
-  <input id="monthlySales" type="number" min="0" step="100" value="10000" required>
-  <small id="salesInfo" style="color:#B0B3B8;display:block;margin-top:4px">
-    Introduce tus ventas del último mes para estimar comisión y crédito.
-  </small>
-</div>
-
-<div class="field">
-  <label>Comisión aplicada (%)</label>
-  <input id="commission" type="text" readonly>
-</div>
-
-<div class="field">
-  <label>Capacidad de crédito estimada (€)</label>
-  <input id="creditCap" type="text" readonly>
-</div>
             <option value="rbf">% de ventas (Revenue-based)</option>
             <option value="fixed">Cuota fija</option>
           </select>
@@ -193,6 +194,7 @@
     const form = document.getElementById("simuForm");
     if (!form) return;
 
+    // Campos generales
     const modeEl = document.getElementById("mode");
     const amountEl = document.getElementById("amount");
     const feeEl = document.getElementById("fee");
@@ -207,58 +209,47 @@
     const outDur = document.getElementById("outDuration");
     const outCost = document.getElementById("outCost");
     const scheduleEl = document.getElementById("schedule");
-// === Cálculo de comisión y capacidad según ventas ===
-const monthlySalesEl = document.getElementById("monthlySales");
-const commissionEl = document.getElementById("commission");
-const creditCapEl = document.getElementById("creditCap");
 
-function updateCreditCapacity() {
-  const sales = +monthlySalesEl.value || 0;
-  let commission = 0;
-  let multiplier = 0;
+    // === Nuevo bloque: Ventas, comisión y capacidad ===
+    const monthlySalesEl = document.getElementById("monthlySales");
+    const commissionEl = document.getElementById("commission");
+    const creditCapEl = document.getElementById("creditCap");
 
-  // Escalas según volumen de ventas
-  if (sales < 3000) {
-    commission = 15;
-    multiplier = 0.5;
-  } else if (sales < 8000) {
-    commission = 12;
-    multiplier = 0.8;
-  } else if (sales < 15000) {
-    commission = 10;
-    multiplier = 1.0;
-  } else if (sales < 25000) {
-    commission = 8;
-    multiplier = 1.2;
-  } else {
-    commission = 7;
-    multiplier = 1.4;
-  }
+    function updateCreditCapacity() {
+      const sales = +monthlySalesEl.value || 0;
+      let commission = 0, multiplier = 0;
 
-  const credit = Math.round(sales * multiplier);
-  commissionEl.value = commission.toFixed(1) + " %";
-  creditCapEl.value = credit.toLocaleString("es-ES") + " €";
-}
+      if (sales < 3000) { commission = 15; multiplier = 0.5; }
+      else if (sales < 8000) { commission = 12; multiplier = 0.8; }
+      else if (sales < 15000) { commission = 10; multiplier = 1.0; }
+      else if (sales < 25000) { commission = 8; multiplier = 1.2; }
+      else { commission = 7; multiplier = 1.4; }
 
-// actualizar automáticamente al escribir
-monthlySalesEl.addEventListener("input", updateCreditCapacity);
+      const credit = Math.round(sales * multiplier);
+      commissionEl.value = commission.toFixed(1) + " %";
+      creditCapEl.value = credit.toLocaleString("es-ES") + " €";
 
-// inicializar al cargar
-updateCreditCapacity();
+      // Sincronizar con "importe solicitado" para facilitar
+      amountEl.value = credit;
+    }
+    monthlySalesEl.addEventListener("input", updateCreditCapacity);
+    updateCreditCapacity();
 
-    function euro(n){return n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});}
-
+    // ==== resto del simulador ====
     const toggleMode = () => {
       const isRbf = modeEl.value === "rbf";
       document.querySelectorAll(".rbf-only").forEach(e=>e.style.display=isRbf?"":"none");
       document.querySelectorAll(".fixed-only").forEach(e=>e.style.display=isRbf?"none":"");
     };
     modeEl.addEventListener("change", toggleMode);
+    toggleMode();
 
     form.addEventListener("submit", e=>{
       e.preventDefault();
       modeEl.value==="rbf" ? calcRBF() : calcFixed();
     });
+
+    function euro(n){return n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});}
 
     function calcRBF(){
       const A=+amountEl.value||0,fee=(+feeEl.value||0)/100,sales=+salesEl.value||0,take=(+takeEl.value||0)/100,cap=+capEl.value||6;
