@@ -269,4 +269,17 @@ footer{
   .navbar ul{ display:none } /* simplifica en móvil; si quieres menú burger lo añadimos */
   }
 
+/* Visible por defecto si no hay JS */
+.fade-in { opacity: 1; transform: none; }
+
+/* Solo si hay JS activamos el efecto */
+.js .fade-in {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.js .fade-in.appear {
+  opacity: 1;
+  transform: translateY(0);
+}
 
