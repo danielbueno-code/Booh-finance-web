@@ -322,35 +322,43 @@ footer{
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* En móvil */
+/* ===== MENÚ MÓVIL FIJO Y FUNCIONAL ===== */
 @media (max-width: 768px) {
-  .menu-toggle { display: flex; }
-
-  .navbar ul {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    flex-direction: column;
-    background: rgba(26, 28, 34, 0.98);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 16px;
-    gap: 12px;
-    transform: scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
+  .menu-toggle {
+    display: flex;
   }
 
+  /* menú inicialmente oculto */
+  .navbar ul {
+    position: fixed;
+    top: 65px;
+    right: 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(26, 28, 34, 0.98);
+    border-left: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0 0 0 12px;
+    padding: 16px;
+    gap: 14px;
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 2000;
+  }
+
+  /* al hacer clic se muestra */
   .navbar ul.show {
     opacity: 1;
+    transform: translateX(0);
     pointer-events: auto;
-    transform: scale(1);
   }
 
   .navbar ul li a {
     color: var(--text);
-    font-weight: 500;
+    font-size: 1.1rem;
   }
 }
 
