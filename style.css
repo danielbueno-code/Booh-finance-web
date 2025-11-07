@@ -111,6 +111,7 @@ section p{ color:var(--muted); max-width:800px; margin:0 auto }
   letter-spacing: 0.5px;
   margin-bottom: 1rem;
   animation: fadeDown 1s ease forwards;
+  color:white
 }
 
 #home.hero p {
