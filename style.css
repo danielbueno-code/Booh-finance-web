@@ -33,7 +33,7 @@ header{
   display:flex; align-items:center; justify-content:space-between;
   padding:14px 20px;
 }
-.logo{ height:34px; width:auto; display:block }
+.logo{ height:64px; width:auto; display:block }
 .navbar ul{ list-style:none; display:flex; gap:22px; align-items:center }
 .navbar a{
   color:var(--muted); text-decoration:none; font-weight:500; transition:var(--transition);
@@ -117,7 +117,7 @@ section p{ color:var(--muted); max-width:800px; margin:0 auto }
 #home.hero p {
   position: relative;
   z-index: 1;
-  color: var(--muted);
+  color: white;
   max-width: 680px;
   font-size: 1.1rem;
   margin-bottom: 2rem;
