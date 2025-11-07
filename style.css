@@ -81,7 +81,7 @@ section p{ color:var(--muted); max-width:800px; margin:0 auto }
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("https://images.unsplash.com/photo-1638913650084-bd1a2b72f6a4?auto=format&fit=crop&w=1600&q=80");
+  background-image: url("img/hero-booh.png");
   background-size: cover;
   background-position: center;
   opacity: 0.15;
