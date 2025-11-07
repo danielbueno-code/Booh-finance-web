@@ -479,3 +479,60 @@ header {
   }
   .menu-toggle{ display: none !important; }
                                         }
+/* ===== ICONOS SECCIÓN "CÓMO FUNCIONA" ===== */
+#how .steps {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+#how .steps > div {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#how .steps > div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 26px rgba(0, 175, 216, 0.28);
+}
+
+/* ——— Iconos por cada paso ——— */
+#how .steps > div::before {
+  content: "";
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  width: 36px;
+  height: 36px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 6px rgba(0,175,216,0.4));
+}
+
+/* Paso 1: Conéctate (icono plug) */
+#how .steps > div:nth-child(1)::before {
+  background-image: url("data:image/svg+xml,%3Csvg fill='%2300AFD8' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7h3v6H7V7zm7 0h3v6h-3V7zM6 14h12v2a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5v-2z'/%3E%3C/svg%3E");
+}
+
+/* Paso 2: Recibe tu oferta (icono rayo) */
+#how .steps > div:nth-child(2)::before {
+  background-image: url("data:image/svg+xml,%3Csvg fill='%2300AFD8' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 2L3 14h6l-2 8 10-12h-6l2-8z'/%3E%3C/svg%3E");
+}
+
+/* Paso 3: Devuelve fácil (icono billetera) */
+#how .steps > div:nth-child(3)::before {
+  background-image: url("data:image/svg+xml,%3Csvg fill='%2300AFD8' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 7H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-3 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z'/%3E%3C/svg%3E");
+}
+
+/* espacio adicional para el icono */
+#how .steps h3 {
+  padding-left: 3.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--booh-blue);
+}
