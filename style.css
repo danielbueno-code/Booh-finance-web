@@ -897,3 +897,114 @@ header {
     height: 50px !important;
   }
       }
+
+
+/* ===== IA Pricing ===== */
+#ai {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background: #0E1015;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 4rem 2rem;
+}
+
+#ai h2 {
+  color: #00AFD8;
+  margin-bottom: 1rem;
+}
+
+.ai-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+  max-width: 1000px;
+}
+
+.ai-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.ai-text ul {
+  list-style: none;
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.ai-text li::before {
+  content: "•";
+  color: #00AFD8;
+  margin-right: 8px;
+}
+
+.ai-pricing {
+  flex: 0.8;
+  background: #1A1C22;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+  min-width: 320px;
+  text-align: center;
+}
+
+.ai-pricing h3 {
+  color: #00AFD8;
+  margin-bottom: 1rem;
+}
+
+.pricing-card {
+  background: rgba(255,255,255,0.04);
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.pricing-card .price-now {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #00AFD8;
+}
+
+.pricing-card .contract {
+  font-size: 0.95rem;
+  color: #B0B3B8;
+  margin: 0.5rem 0;
+}
+
+.pricing-card .price-after {
+  font-size: 1rem;
+  color: #F4F4F4;
+  margin-top: 0.3rem;
+}
+
+#ai .hint {
+  font-size: 0.9rem;
+  color: #B0B3B8;
+  margin-top: 1rem;
+}
+
+#ai .cta {
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #ai {
+    padding: 2.5rem 1.2rem;
+  }
+
+  .ai-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ai-pricing {
+    width: 100%;
+  }
+}
