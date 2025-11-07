@@ -1,26 +1,20 @@
-// ===== Booh! Finance Scroll Animations =====
-
-// Espera a que cargue el contenido del DOM
 document.addEventListener("DOMContentLoaded", () => {
-  const fadeElements = document.querySelectorAll(".fade-in");
+  const fadeEls = document.querySelectorAll(".fade-in");
 
-  const appearOptions = {
-    threshold: 0.2,
-    rootMargin: "0px 0px -50px 0px"
-  };
+  // Fallback: si el navegador no soporta IntersectionObserver
+  if (!("IntersectionObserver" in window)) {
+    fadeEls.forEach(el => el.classList.add("appear"));
+    return;
+  }
 
-  const appearOnScroll = new IntersectionObserver((entries, observer) => {
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("appear");
-      observer.unobserve(entry.target);
+      if (entry.isIntersecting) {
+        entry.target.classList.add("appear");
+        obs.unobserve(entry.target);
+      }
     });
-  }, appearOptions);
+  }, { threshold: 0.1, rootMargin: "0px 0px -10% 0px" });
 
-  fadeElements.forEach(el => {
-    appearOnScroll.observe(el);
-  });
+  fadeEls.forEach(el => observer.observe(el));
 });
-
-
----
