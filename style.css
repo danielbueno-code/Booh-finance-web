@@ -604,3 +604,26 @@ header {
     margin-top: 1.5rem;
   }
 }
+
+/* ===== Ajuste de espaciado IA Pricing ===== */
+#ai {
+  padding: 4rem 2rem 5rem; /* menos padding arriba */
+}
+
+#ai .ai-content {
+  align-items: flex-start; /* alinea arriba */
+  gap: 1.5rem;             /* reduce separación */
+}
+
+#ai .ai-image {
+  margin-top: 1rem;        /* ajusta espacio superior */
+}
+
+#ai .ai-image img {
+  margin-top: 0;
+  max-width: 420px;        /* un poco más pequeño */
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(0,175,216,0.25);
+  object-fit: cover;
+}
