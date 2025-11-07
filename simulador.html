@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de crédito | Booh Finance</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #0B0C10; color: #F4F4F4; font-family: 'Roboto', sans-serif; }
+    header {
+      background: rgba(11, 12, 16, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    header h1 { color: #00AFD8; font-size: 1.8rem; margin: 0; }
+
+    section {
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    #simulator h2 { color: #00AFD8; margin-bottom: 1rem; }
+
+    .simu {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .simu-form {
+      background: #1A1C22;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .field { display: grid; gap: .35rem; }
+    .field label { color: #B0B3B8; font-size: .95rem; }
+    .field input, .field select {
+      background: #12141C;
+      color: #F4F4F4;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      transition: .2s;
+    }
+    .field input:focus, .field select:focus {
+      border-color: #00AFD8;
+      box-shadow: 0 0 0 3px rgba(0,175,216,.15);
+    }
+
+    .cta {
+      background: #00AFD8;
+      color: #061017;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .25s;
+    }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 0 14px rgba(0,175,216,.35); }
+
+    .simu-result .cards {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .simu-result .card {
+      background: #1A1C22;
+      border-radius: 14px;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .simu-result .card h4 { color: #00AFD8; margin-bottom: .4rem; }
+    .simu-result .card p { font-size: 1.15rem; }
+
+    .schedule {
+      margin-top: 1rem;
+      background: rgba(26,28,34,.6);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px;
+      overflow: auto;
+      max-height: 420px;
+    }
+    .schedule table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    .schedule th, .schedule td {
+      padding: .75rem .9rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      text-align: right;
+    }
+    .schedule th:first-child, .schedule td:first-child { text-align: left; }
+
+    @media (max-width: 900px) {
+      .simu { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Booh Finance | Simulador de Crédito</h1>
+  </header>
+
+  <section id="simulator">
+    <h2>Calcula tu crédito</h2>
+    <div class="simu">
+      <form class="simu-form" id="simuForm">
+        <div class="field">
+          <label>Modelo</label>
+          <select id="mode">
+            <option value="rbf">% de ventas (Revenue-based)</option>
+            <option value="fixed">Cuota fija</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Importe solicitado (€)</label>
+          <input id="amount" type="number" value="5000" min="100" step="100" required>
+        </div>
+
+        <div class="rbf-only">
+          <div class="field">
+            <label>Fee (%)</label>
+            <input id="fee" type="number" value="10" min="0" step="0.1">
+          </div>
+          <div class="field">
+            <label>Ventas mensuales (€)</label>
+            <input id="sales" type="number" value="12000" min="0" step="100">
+          </div>
+          <div class="field">
+            <label>% devolución sobre ventas</label>
+            <input id="takeRate" type="number" value="15" min="1" max="50" step="1">
+          </div>
+          <div class="field">
+            <label>Meses máx.</label>
+            <input id="capMonths" type="number" value="6" min="1" max="24">
+          </div>
+        </div>
+
+        <div class="fixed-only" style="display:none">
+          <div class="field">
+            <label>Interés anual (%)</label>
+            <input id="apr" type="number" value="12" min="0" step="0.1">
+          </div>
+          <div class="field">
+            <label>Plazo (meses)</label>
+            <input id="months" type="number" value="6" min="1" max="60">
+          </div>
+        </div>
+
+        <button type="submit" class="cta">Calcular</button>
+      </form>
+
+      <div class="simu-result" id="simuResult">
+        <div class="cards">
+          <div class="card"><h4>Total a devolver</h4><p id="outTotal">—</p></div>
+          <div class="card"><h4>Cuota/Devolución</h4><p id="outMonthly">—</p></div>
+          <div class="card"><h4>Duración estimada</h4><p id="outDuration">—</p></div>
+          <div class="card"><h4>Coste total</h4><p id="outCost">—</p></div>
+        </div>
+        <div class="schedule" id="schedule"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("simuForm");
+    if (!form) return;
+
+    const modeEl = document.getElementById("mode");
+    const amountEl = document.getElementById("amount");
+    const feeEl = document.getElementById("fee");
+    const salesEl = document.getElementById("sales");
+    const takeEl = document.getElementById("takeRate");
+    const capEl = document.getElementById("capMonths");
+    const aprEl = document.getElementById("apr");
+    const monthsEl = document.getElementById("months");
+
+    const outTotal = document.getElementById("outTotal");
+    const outMonthly = document.getElementById("outMonthly");
+    const outDur = document.getElementById("outDuration");
+    const outCost = document.getElementById("outCost");
+    const scheduleEl = document.getElementById("schedule");
+
+    function euro(n){return n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});}
+
+    const toggleMode = () => {
+      const isRbf = modeEl.value === "rbf";
+      document.querySelectorAll(".rbf-only").forEach(e=>e.style.display=isRbf?"":"none");
+      document.querySelectorAll(".fixed-only").forEach(e=>e.style.display=isRbf?"none":"");
+    };
+    modeEl.addEventListener("change", toggleMode);
+
+    form.addEventListener("submit", e=>{
+      e.preventDefault();
+      modeEl.value==="rbf" ? calcRBF() : calcFixed();
+    });
+
+    function calcRBF(){
+      const A=+amountEl.value||0,fee=(+feeEl.value||0)/100,sales=+salesEl.value||0,take=(+takeEl.value||0)/100,cap=+capEl.value||6;
+      const target=A*(1+fee),monthly=sales*take;
+      if(monthly<=0)return;
+      let rem=target,m=0,rows=[];
+      while(rem>0&&m<cap){m++;const pay=Math.min(monthly,rem);const before=rem;rem-=pay;rows.push([m,euro(before),euro(pay),euro(rem>0?rem:0)]);}
+      outTotal.textContent=euro(target);
+      outMonthly.textContent=euro(monthly)+" (estimado)";
+      outDur.textContent=m+" meses";
+      outCost.textContent=euro(target-A);
+      render(["Mes","Pendiente","Pago","Restante"],rows);
+    }
+
+    function calcFixed(){
+      const A=+amountEl.value||0,n=+monthsEl.value||1,apr=(+aprEl.value||0)/100,r=apr/12;
+      const pmt=r===0?A/n:A*(r/(1-Math.pow(1+r,-n)));
+      let bal=A,rows=[];
+      for(let i=1;i<=n;i++){
+        const interest=bal*r,principal=Math.min(pmt-interest,bal);
+        bal-=principal;rows.push([i,euro(principal),euro(interest),euro(pmt),euro(bal>0?bal:0)]);
+        if(bal<=0)break;
+      }
+      const total=pmt*rows.length;
+      outTotal.textContent=euro(total);
+      outMonthly.textContent=euro(pmt);
+      outDur.textContent=rows.length+" meses";
+      outCost.textContent=euro(total-A);
+      render(["Mes","Amortización","Interés","Cuota","Restante"],rows);
+    }
+
+    function render(h,rows){
+      let thead="<thead><tr>"+h.map(x=>`<th>${x}</th>`).join("")+"</tr></thead>";
+      let tbody="<tbody>"+rows.map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join("")+"</tr>").join("")+"</tbody>";
+      scheduleEl.innerHTML=`<table>${thead}${tbody}</table>`;
+    }
+  });
+  </script>
+</body>
+</html>
