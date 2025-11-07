@@ -164,6 +164,21 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    /* ===== Ajuste tamaño logo Booh Finance ===== */
+.navbar .logo {
+  height: 58px !important;  /* antes 34px */
+  width: auto;
+  object-fit: contain;
+  transition: height 0.3s ease;
+}
+
+/* Un poco más pequeño en móvil */
+@media (max-width: 768px) {
+  .navbar .logo {
+    height: 50px !important;
+  }
+}
   </style>
 </head>
 
