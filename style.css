@@ -353,3 +353,98 @@ footer{
     font-weight: 500;
   }
 }
+
+/* ===== REPARAR VISIBILIDAD DEL MENÚ ===== */
+
+/* Asegura que los enlaces se muestren en desktop */
+@media (min-width: 769px) {
+  .navbar ul {
+    display: flex !important;
+    position: static;
+    background: transparent;
+    border: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .menu-toggle {
+    display: none !important;
+  }
+}
+
+/* En móvil, el menú se oculta hasta que se pulsa la hamburguesa */
+@media (max-width: 768px) {
+  .navbar ul {
+    display: none;
+  }
+
+  .navbar ul.show {
+    display: flex;
+  }
+}
+
+/* ===== FIX GENERAL DE VISIBILIDAD DEL MENÚ SUPERIOR ===== */
+
+/* Header siempre visible encima de todo */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Navbar */
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
+
+/* Logo */
+.logo {
+  height: 34px;
+  width: auto;
+}
+
+/* Lista de enlaces SIEMPRE visible */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+/* Enlaces visibles y legibles */
+.navbar a {
+  color: var(--text, #F4F4F4);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: var(--booh-blue, #00AFD8);
+}
+
+/* En móviles por ahora NO ocultes nada (para comprobar visibilidad) */
+@media (max-width: 768px) {
+  .navbar ul {
+    display: flex;
+    background: rgba(26, 28, 34, 0.98);
+    border-radius: 10px;
+    padding: 10px 16px;
+  }
+  }
