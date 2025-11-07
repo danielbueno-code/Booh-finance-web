@@ -122,13 +122,13 @@
     const euro = n => (n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"});
 
     // Política Booh: calcula comisión (fee), crédito máximo y take rate según ventas
-    function policyFromSales(sales){
-      if (sales < 5000)  return { fee:12, credit:2000, takeRate:20 };
-      if (sales < 8000)  return { fee:10, credit:5000, takeRate:18 };
-      if (sales < 12000) return { fee:8,  credit:8000, takeRate:15 };
-      if (sales < 16000) return { fee:7,  credit:12000, takeRate:12 };
-      return                { fee:6,  credit:15000, takeRate:10 };
-    }
+    function policyFromSales(sales) {
+  if (sales < 5000)      return { fee: 12, credit: 2000, takeRate: 20 };
+  if (sales < 8000)      return { fee: 11, credit: 5000, takeRate: 18 };
+  if (sales < 12000)     return { fee: 9,  credit: 8000, takeRate: 15 };
+  if (sales < 16000)     return { fee: 8,  credit: 12000, takeRate: 12 };
+  return                   { fee: 7,  credit: 15000, takeRate: 10 };
+}
 
     function updateProfile(){
       const s = +monthlyEl.value || 0;
