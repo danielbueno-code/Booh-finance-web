@@ -1329,3 +1329,112 @@ header {
     font-size: 1.8rem;
   }
 }
+
+/* ==== IA SCORING ==== */
+.ia-scoring {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  color: #00afd8;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 50px;
+}
+
+.scoring-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scoring-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+
+.scoring-card:hover {
+  transform: translateY(-6px);
+}
+
+.scoring-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.1));
+}
+
+.scoring-card h3 {
+  color: #00afd8;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.scoring-card p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.scoring-image img {
+  max-width: 900px;
+  width: 100%;
+  border-radius: 15px;
+  margin: 40px auto;
+  display: block;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+.cta-box {
+  margin-top: 40px;
+}
+
+.cta-box p {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #00afd8;
+  color: white;
+  padding: 14px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background: #008fb1;
+}
+
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .scoring-card {
+    padding: 20px;
+  }
+
+  .scoring-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
