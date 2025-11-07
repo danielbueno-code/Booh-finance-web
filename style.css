@@ -672,3 +672,74 @@ header {
     height: 50px !important;
   }
 }
+
+
+/* ===== Ajuste total del simulador en móviles ===== */
+@media (max-width: 768px) {
+
+  /* Sección general */
+  #simulator {
+    padding: 2rem 1rem;
+  }
+
+  /* Disposición vertical */
+  .simu {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+
+  /* Formulario ocupa todo el ancho */
+  .simu-form {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem;
+  }
+
+  /* Inputs más cómodos en móvil */
+  .field input,
+  .field select {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px 14px;
+  }
+
+  .hint {
+    font-size: 0.9rem;
+  }
+
+  /* Botón centrado y más grande */
+  .cta {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  /* Resultados */
+  .simu-result .cards {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .simu-result .card {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  /* Tabla de pagos */
+  .schedule {
+    max-height: none;
+    overflow-x: auto;
+  }
+
+  /* Avisos */
+  #simuResult div[style*='color:#ffb347'] {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 1rem !important;
+  }
+}
