@@ -536,3 +536,71 @@ header {
   margin-bottom: 0.5rem;
   color: var(--booh-blue);
 }
+
+
+/* ===== IA PRICING SECTION ===== */
+#ai {
+  background: linear-gradient(160deg, #0C0E14, #171922);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 6rem 2rem;
+}
+
+#ai .ai-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+#ai .ai-text {
+  flex: 1 1 400px;
+}
+
+#ai .ai-text h2 {
+  color: var(--booh-blue);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#ai .ai-text p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+#ai .ai-image {
+  flex: 1 1 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#ai .ai-image img {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0,175,216,0.25);
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#ai .ai-image img:hover {
+  transform: scale(1.04);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #ai .ai-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #ai .ai-image img {
+    max-width: 90%;
+    margin-top: 1.5rem;
+  }
+}
