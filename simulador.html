@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de crédito | Booh Finance</title>
 
-  <!-- Estilos globales -->
-  <link rel="stylesheet" href="style.css?v=9">
-  <script src="menu.js?v=9" defer></script>
+  <link rel="stylesheet" href="style.css?v=10">
+  <script src="menu.js?v=10" defer></script>
 
   <style>
     body{background:#0B0C10;color:#F4F4F4;font-family:Roboto,sans-serif;line-height:1.6}
@@ -21,7 +20,7 @@
     .field label{color:#B0B3B8;font-size:.95rem}
     .field input{background:#12141C;color:#F4F4F4;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;outline:none;transition:.2s}
     .field input:focus{border-color:#00AFD8;box-shadow:0 0 0 3px rgba(0,175,216,.15)}
-    .readonly{background:#101218;color:#00AFD8;font-weight:600}
+    .readonly{background:#101218;color:#00AFD8;font-weight:600;cursor:not-allowed;}
     .hint{color:#B0B3B8;font-size:.85rem}
     .cta{background:#00AFD8;color:#061017;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:.25s}
     .cta:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,175,216,.35)}
@@ -54,7 +53,7 @@
     </nav>
   </header>
 
-  <!-- ===== CONTENIDO ===== -->
+  <!-- ===== SIMULADOR ===== -->
   <main>
     <section id="simulator">
       <h2>Simula tu crédito Booh Finance</h2>
@@ -64,39 +63,33 @@
           <div class="field">
             <label>Ventas del último mes (€)</label>
             <input id="monthlySales" type="number" min="0" step="100" value="10000" required>
-            <div class="hint">Usamos tus ventas para calcular comisión, crédito máximo y devolución estimada.</div>
+            <div class="hint">Usamos tus ventas para calcular tu perfil y condiciones.</div>
           </div>
 
           <div class="grid-2">
             <div class="field">
-              <label>Comisión aplicada (%)</label>
-              <input id="commission" class="readonly" type="text" readonly>
+              <label>Comisión aplicada (fee único %)</label>
+              <input id="fee" class="readonly" type="text" readonly>
             </div>
+            <div class="field">
+              <label>% devolución sobre ventas</label>
+              <input id="takeRate" class="readonly" type="text" readonly>
+            </div>
+          </div>
+
+          <div class="grid-2">
             <div class="field">
               <label>Crédito máximo disponible (€)</label>
               <input id="creditCap" class="readonly" type="text" readonly>
             </div>
-          </div>
-
-          <div class="field">
-            <label>Importe solicitado (€)</label>
-            <input id="amount" type="number" min="2000" max="15000" step="100" required>
-            <div class="hint">Rango Booh: 2.000 € — 15.000 €</div>
-          </div>
-
-          <div class="grid-2">
             <div class="field">
-              <label>Fee único del crédito (%)</label>
-              <input id="fee" type="number" value="10" min="6" max="12" step="0.1">
-            </div>
-            <div class="field">
-              <label>% devolución sobre ventas</label>
-              <input id="takeRate" type="number" value="15" min="5" max="30" step="1">
+              <label>Importe solicitado (€)</label>
+              <input id="amount" type="number" min="2000" max="15000" step="100" required>
             </div>
           </div>
 
           <button type="submit" class="cta">Calcular</button>
-          <p class="hint">✅ Modelo RBF: pago variable vinculado a ventas · ⏳ Máx. 6 meses · ❌ Sin cuota fija.</p>
+          <p class="hint">✅ Modelo RBF: pago variable vinculado a tus ventas · ⏳ Máx. 6 meses · ❌ Sin cuota fija.</p>
         </form>
 
         <div class="simu-result" id="simuResult">
@@ -105,8 +98,6 @@
             <div class="card"><h4>Pago mensual estimado</h4><p id="outMonthly">—</p></div>
             <div class="card"><h4>Duración estimada</h4><p id="outDuration">—</p></div>
             <div class="card"><h4>Coste total (fee)</h4><p id="outCost">—</p></div>
-            <div class="card"><h4>Ventas estimadas generadas</h4><p id="outNewSales">—</p></div>
-            <div class="card"><h4>Margen neto después de devolver</h4><p id="outMargin">—</p></div>
           </div>
           <div class="schedule" id="schedule"></div>
         </div>
@@ -118,36 +109,39 @@
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("simuForm");
     const monthlyEl = document.getElementById("monthlySales");
-    const commissionEl = document.getElementById("commission");
-    const capEl = document.getElementById("creditCap");
-    const amountEl = document.getElementById("amount");
     const feeEl = document.getElementById("fee");
     const takeEl = document.getElementById("takeRate");
+    const capEl = document.getElementById("creditCap");
+    const amountEl = document.getElementById("amount");
     const outTotal = document.getElementById("outTotal");
     const outMonthly = document.getElementById("outMonthly");
     const outDur = document.getElementById("outDuration");
     const outCost = document.getElementById("outCost");
-    const outNewSales = document.getElementById("outNewSales");
-    const outMargin = document.getElementById("outMargin");
     const scheduleEl = document.getElementById("schedule");
 
     const euro = n => (n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"});
 
-    function policyFromSales(s){
-      if(s<5000)return{commission:12,credit:2000};
-      if(s<8000)return{commission:10,credit:5000};
-      if(s<12000)return{commission:8,credit:8000};
-      if(s<16000)return{commission:7,credit:12000};
-      return{commission:6,credit:15000};
+    // Política Booh: calcula comisión (fee), crédito máximo y take rate según ventas
+    function policyFromSales(sales){
+      if (sales < 5000)  return { fee:12, credit:2000, takeRate:20 };
+      if (sales < 8000)  return { fee:10, credit:5000, takeRate:18 };
+      if (sales < 12000) return { fee:8,  credit:8000, takeRate:15 };
+      if (sales < 16000) return { fee:7,  credit:12000, takeRate:12 };
+      return                { fee:6,  credit:15000, takeRate:10 };
     }
 
     function updateProfile(){
-      const s=+monthlyEl.value||0;
-      const {commission,credit}=policyFromSales(s);
-      commissionEl.value=commission.toFixed(1)+" %";
-      capEl.value=credit.toLocaleString("es-ES")+" €";
-      const r=+amountEl.value||0;
-      if(!amountEl.dataset.touched||r>credit||r<2000){amountEl.value=credit;}
+      const s = +monthlyEl.value || 0;
+      const { fee, credit, takeRate } = policyFromSales(s);
+
+      feeEl.value = fee.toFixed(1) + " %";
+      takeEl.value = takeRate.toFixed(0) + " %";
+      capEl.value = credit.toLocaleString("es-ES") + " €";
+
+      const r = +amountEl.value || 0;
+      if (!amountEl.dataset.touched || r > credit || r < 2000) {
+        amountEl.value = credit;
+      }
     }
 
     amountEl.addEventListener("input",()=>amountEl.dataset.touched="1");
@@ -159,36 +153,47 @@
       scheduleEl.innerHTML=`<table>${th}${tb}</table>`;
     }
 
+    // Cálculo RBF
     function calcRBF(){
-      const A=+amountEl.value||0, fee=(+feeEl.value||0)/100, s=+monthlyEl.value||0, take=(+takeEl.value||0)/100, capM=6;
-      const target=A*(1+fee), pay=s*take;
-      let rem=target,m=0,rows=[];
-      while(rem>0&&m<capM){m++;const p=Math.min(pay,rem);const b=rem;rem-=p;rows.push([m,euro(b),euro(p),euro(Math.max(rem,0))]);}
-      outTotal.textContent=euro(target);
-      outMonthly.textContent=euro(pay)+" (estimado)";
-      outDur.textContent=m+" meses";
-      outCost.textContent=euro(target-A);
+      const A = +amountEl.value || 0;
+      const s = +monthlyEl.value || 0;
+      const fee = parseFloat(feeEl.value) / 100;
+      const take = parseFloat(takeEl.value) / 100;
+      const capM = 6;
+
+      const target = A * (1 + fee);
+      const pay = s * take;
+
+      let rem = target, m = 0, rows = [];
+
+      while(rem > 0 && m < capM){
+        m++;
+        const pago = Math.min(pay, rem);
+        const antes = rem;
+        rem -= pago;
+        rows.push([m, euro(antes), euro(pago), euro(Math.max(rem,0))]);
+      }
+
+      outTotal.textContent = euro(target);
+      outMonthly.textContent = euro(pay) + " (estimado)";
+      outDur.textContent = m + " meses";
+      outCost.textContent = euro(target - A);
+
       renderTable(["Mes","Pendiente","Pago","Restante"],rows);
 
-      // --- Nuevos cálculos Booh ---
-      let growthFactor;
-if (A <= 5000) growthFactor = 1.15;       // +15%
-else if (A <= 8000) growthFactor = 1.20;  // +20%
-else growthFactor = 1.25;                 // +25%
-
-const marginPercent = 0.27; // margen medio ponderado (25–30%) // margen medio 25%
-      const newSales = s * growthFactor;
-      const grossMargin = newSales * marginPercent;
-      const marginAfterRepay = grossMargin - (target - A);
-
-      outNewSales.textContent = euro(newSales);
-      outMargin.textContent = euro(marginAfterRepay);
+      if (rem > 0){
+        const aviso = document.createElement("div");
+        aviso.style="margin-top:10px;color:#ffb347;font-weight:500;text-align:center;";
+        aviso.textContent="⚠️ Plazo máximo 6 meses. El crédito vence al finalizar este periodo.";
+        scheduleEl.appendChild(aviso);
+      }
     }
 
-    form.addEventListener("submit",e=>{
+    form.addEventListener("submit", e=>{
       e.preventDefault();
       calcRBF();
     });
+
     updateProfile();
   });
   </script>
