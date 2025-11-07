@@ -995,3 +995,38 @@ header {
   .ai-content {flex-direction:column-reverse;text-align:center;}
   .ai-image img {max-width:100%;margin-top:1.5rem;}
 }
+
+/* ===== Corrección de solapamiento del botón IA Pricing ===== */
+#ai .ai-pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+#ai .ai-pricing .hint {
+  margin-bottom: 1rem;
+  text-align: center;
+  line-height: 1.5;
+}
+
+#ai .ai-pricing .cta {
+  margin-top: 0.8rem;
+  margin-bottom: 0; /* Evita que el botón empuje el contenedor */
+  z-index: 1;
+}
+
+/* En móvil, más espacio y alineación centrada */
+@media (max-width: 768px) {
+  #ai .ai-pricing {
+    padding-bottom: 1.5rem;
+  }
+
+  #ai .ai-pricing .cta {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
