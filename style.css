@@ -422,37 +422,60 @@ header {
   width: auto;
 }
 
-/* Lista de enlaces SIEMPRE visible */
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 22px;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: none !important;
-}
 
-/* Enlaces visibles y legibles */
-.navbar a {
-  color: var(--text, #F4F4F4);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
 
-.navbar a:hover {
-  color: var(--booh-blue, #00AFD8);
-}
-
-/* En móviles por ahora NO ocultes nada (para comprobar visibilidad) */
+/* ===== MENÚ MÓVIL (<=768px) ===== */
 @media (max-width: 768px) {
-  .navbar ul {
-    display: flex;
-    background: rgba(26, 28, 34, 0.98);
-    border-radius: 10px;
-    padding: 10px 16px;
+  /* botón visible en móvil */
+  .menu-toggle { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between;
+    width: 28px; height: 22px;
+    background: none; border: 0; cursor: pointer; z-index: 3001;
   }
+  .menu-toggle span { height: 3px; width: 100%; background: var(--text); border-radius: 2px; transition: .3s }
+
+  /* animación a X */
+  .menu-toggle.active span:nth-child(1){ transform: rotate(45deg) translate(5px, 5px) }
+  .menu-toggle.active span:nth-child(2){ opacity: 0 }
+  .menu-toggle.active span:nth-child(3){ transform: rotate(-45deg) translate(6px, -6px) }
+
+  /* menú oculto por defecto */
+  #nav-links{
+    position: fixed;
+    top: 65px; right: 0;
+    width: 240px; max-height: calc(100vh - 65px);
+    display: flex; flex-direction: column; gap: 14px;
+    background: rgba(26,28,34,.98);
+    border-left: 1px solid rgba(255,255,255,.06);
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-radius: 0 0 0 12px;
+    padding: 16px;
+    overflow:auto;
+
+    opacity: 0; transform: translateX(100%);
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    z-index: 3000;
   }
+
+  /* visible al abrir */
+  #nav-links.show{
+    opacity: 1; transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* evita que otras reglas lo fuercen visible */
+  header .navbar ul { display: flex !important; } /* base */
+}
+
+/* ===== DESKTOP (>=769px): menú siempre visible, sin hamburguesa ===== */
+@media (min-width: 769px){
+  #nav-links{ 
+    position: static; display: flex !important; gap: 22px; 
+    background: transparent; border: 0; padding: 0; 
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+  .menu-toggle{ display: none !important; }
+                                        }
