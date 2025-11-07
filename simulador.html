@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de crédito | Booh Finance</title>
 
-  <link rel="stylesheet" href="style.css?v=10">
-  <script src="menu.js?v=10" defer></script>
+  <link rel="stylesheet" href="style.css?v=13">
+  <script src="menu.js?v=13" defer></script>
 
   <style>
     body{background:#0B0C10;color:#F4F4F4;font-family:Roboto,sans-serif;line-height:1.6}
     main{padding-top:90px}
     section{padding:3rem 1.5rem;max-width:1100px;margin:0 auto}
-    #simulator h2{color:#00AFD8;margin-bottom:1rem}
+    #simulator h2{color:#00AFD8;margin-bottom:1rem;text-align:center}
     .simu{display:grid;gap:2rem;grid-template-columns:1fr 1.2fr}
     .simu-form{background:#1A1C22;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.25rem;display:grid;gap:1rem}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
@@ -20,24 +20,22 @@
     .field label{color:#B0B3B8;font-size:.95rem}
     .field input{background:#12141C;color:#F4F4F4;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;outline:none;transition:.2s}
     .field input:focus{border-color:#00AFD8;box-shadow:0 0 0 3px rgba(0,175,216,.15)}
-    .readonly{background:#101218;color:#00AFD8;font-weight:600;cursor:not-allowed;}
+    .readonly{background:#101218;color:#00AFD8;font-weight:600;cursor:not-allowed}
     .hint{color:#B0B3B8;font-size:.85rem}
     .cta{background:#00AFD8;color:#061017;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:.25s}
     .cta:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,175,216,.35)}
     .simu-result .cards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .simu-result .card{background:#1A1C22;border-radius:14px;padding:1rem;border:1px solid rgba(255,255,255,.06)}
+    .simu-result .card{background:#1A1C22;border-radius:14px;padding:1rem;border:1px solid rgba(255,255,255,.06);text-align:center}
     .simu-result .card h4{color:#00AFD8;margin-bottom:.4rem}
-    .simu-result .card p{font-size:1.1rem}
+    .simu-result .card p{font-size:1.05rem}
     .schedule{margin-top:1rem;background:rgba(26,28,34,.6);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:auto;max-height:420px}
     .schedule table{width:100%;border-collapse:collapse;font-size:.95rem}
     .schedule th,.schedule td{padding:.75rem .9rem;border-bottom:1px solid rgba(255,255,255,.06);text-align:right}
     .schedule th:first-child,.schedule td:first-child{text-align:left}
-    @media (max-width:768px){.simu{grid-template-columns:1fr;gap:1.5rem}.grid-2{grid-template-columns:1fr;gap:.8rem}.cta{width:100%;padding:14px;font-size:1rem}}
+    @media(max-width:768px){.simu{grid-template-columns:1fr;gap:1.5rem}.grid-2{grid-template-columns:1fr;gap:.8rem}.cta{width:100%;padding:14px;font-size:1rem}}
   </style>
 </head>
-
 <body>
-  <!-- ===== HEADER ===== -->
   <header>
     <nav class="navbar">
       <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
@@ -54,7 +52,6 @@
     </nav>
   </header>
 
-  <!-- ===== SIMULADOR ===== -->
   <main>
     <section id="simulator">
       <h2>Simula tu crédito Booh Finance</h2>
@@ -99,15 +96,13 @@
             <div class="card"><h4>Pago mensual estimado</h4><p id="outMonthly">—</p></div>
             <div class="card"><h4>Duración estimada</h4><p id="outDuration">—</p></div>
             <div class="card"><h4>Coste total (fee)</h4><p id="outCost">—</p></div>
+            <div class="card"><h4>Ventas estimadas tras crédito</h4><p id="outNewSales">—</p></div>
+            <div class="card"><h4>Margen neto final</h4><p id="outMargin">—</p></div>
           </div>
           <div class="schedule" id="schedule"></div>
         </div>
       </div>
     </section>
-    
-    <footer>
-    <p>© 2025 Booh Finance & IA Pricing. Todos los derechos reservados.</p>
-  </footer>
   </main>
 
   <script>
@@ -122,31 +117,30 @@
     const outMonthly = document.getElementById("outMonthly");
     const outDur = document.getElementById("outDuration");
     const outCost = document.getElementById("outCost");
+    const outNewSales = document.getElementById("outNewSales");
+    const outMargin = document.getElementById("outMargin");
     const scheduleEl = document.getElementById("schedule");
 
     const euro = n => (n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"});
 
-    // Política Booh: calcula comisión (fee), crédito máximo y take rate según ventas
+    // Política Booh: calcula fee, crédito máximo y takeRate
     function policyFromSales(sales) {
-  if (sales < 5000)      return { fee: 12, credit: 2000, takeRate: 20 };
-  if (sales < 8000)      return { fee: 11, credit: 5000, takeRate: 18 };
-  if (sales < 12000)     return { fee: 9,  credit: 8000, takeRate: 15 };
-  if (sales < 16000)     return { fee: 8,  credit: 12000, takeRate: 12 };
-  return                   { fee: 7,  credit: 15000, takeRate: 10 };
-}
+      if (sales < 5000)  return { fee:12, credit:2000, takeRate:20 };
+      if (sales < 8000)  return { fee:11, credit:5000, takeRate:18 };
+      if (sales < 12000) return { fee:9,  credit:8000, takeRate:15 };
+      if (sales < 16000) return { fee:8,  credit:12000, takeRate:12 };
+      return                { fee:7,  credit:15000, takeRate:10 };
+    }
 
     function updateProfile(){
       const s = +monthlyEl.value || 0;
       const { fee, credit, takeRate } = policyFromSales(s);
-
       feeEl.value = fee.toFixed(1) + " %";
       takeEl.value = takeRate.toFixed(0) + " %";
       capEl.value = credit.toLocaleString("es-ES") + " €";
 
       const r = +amountEl.value || 0;
-      if (!amountEl.dataset.touched || r > credit || r < 2000) {
-        amountEl.value = credit;
-      }
+      if (!amountEl.dataset.touched || r > credit || r < 2000) amountEl.value = credit;
     }
 
     amountEl.addEventListener("input",()=>amountEl.dataset.touched="1");
@@ -158,43 +152,52 @@
       scheduleEl.innerHTML=`<table>${th}${tb}</table>`;
     }
 
-    // Cálculo RBF
     function calcRBF(){
-      const A = +amountEl.value || 0;
-      const s = +monthlyEl.value || 0;
-      const fee = parseFloat(feeEl.value) / 100;
-      const take = parseFloat(takeEl.value) / 100;
-      const capM = 6;
+      const A=+amountEl.value||0;
+      const s=+monthlyEl.value||0;
+      const fee=parseFloat(feeEl.value)/100;
+      const take=parseFloat(takeEl.value)/100;
+      const capM=6;
 
-      const target = A * (1 + fee);
-      const pay = s * take;
+      const target=A*(1+fee);
+      const pay=s*take;
 
-      let rem = target, m = 0, rows = [];
-
-      while(rem > 0 && m < capM){
+      let rem=target,m=0,rows=[];
+      while(rem>0&&m<capM){
         m++;
-        const pago = Math.min(pay, rem);
-        const antes = rem;
-        rem -= pago;
-        rows.push([m, euro(antes), euro(pago), euro(Math.max(rem,0))]);
+        const pago=Math.min(pay,rem);
+        const antes=rem;
+        rem-=pago;
+        rows.push([m,euro(antes),euro(pago),euro(Math.max(rem,0))]);
       }
 
-      outTotal.textContent = euro(target);
-      outMonthly.textContent = euro(pay) + " (estimado)";
-      outDur.textContent = m + " meses";
-      outCost.textContent = euro(target - A);
-
+      outTotal.textContent=euro(target);
+      outMonthly.textContent=euro(pay)+" (estimado)";
+      outDur.textContent=m+" meses";
+      outCost.textContent=euro(target-A);
       renderTable(["Mes","Pendiente","Pago","Restante"],rows);
 
-      if (rem > 0){
-        const aviso = document.createElement("div");
+      // Ventas y margen post-crédito
+      let growthFactor;
+      if (A<=5000) growthFactor=1.15;
+      else if (A<=8000) growthFactor=1.20;
+      else growthFactor=1.25;
+      const marginPercent=0.27;
+      const newSales=s*growthFactor;
+      const grossMargin=newSales*marginPercent;
+      const marginAfterRepay=grossMargin-(target-A);
+      outNewSales.textContent=euro(newSales);
+      outMargin.textContent=euro(marginAfterRepay);
+
+      if (rem>0){
+        const aviso=document.createElement("div");
         aviso.style="margin-top:10px;color:#ffb347;font-weight:500;text-align:center;";
         aviso.textContent="⚠️ Plazo máximo 6 meses. El crédito vence al finalizar este periodo.";
         scheduleEl.appendChild(aviso);
       }
     }
 
-    form.addEventListener("submit", e=>{
+    form.addEventListener("submit",e=>{
       e.preventDefault();
       calcRBF();
     });
