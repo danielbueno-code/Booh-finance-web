@@ -1,47 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booh Finance | IA Scoring</title>
-  <link rel="stylesheet" href="style.css?v=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booh Scoring | Booh! Finance</title>
+  <meta name="description" content="Sistema de scoring de Booh! Finance para evaluar riesgo y límite de crédito de restaurantes digitales." />
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <section id="ia-scoring" class="ia-scoring">
-    <h2 class="section-title">IA Scoring</h2>
-    <p class="section-subtitle">
-      Nuestra inteligencia artificial evalúa el riesgo y potencial de cada restaurante en segundos.
-    </p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Booh Finance Home">
+        <span class="brand-mark">BOOH!</span>
+        <span class="brand-sub">FINANCE</span>
+      </a>
 
-    <div class="scoring-grid">
-      <div class="scoring-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="Análisis IA" class="scoring-icon">
-        <h3>Evaluación Automática</h3>
-        <p>Analizamos tus datos de ventas en plataformas como Glovo, Uber Eats y Just Eat para asignarte una puntuación de riesgo dinámica.</p>
-      </div>
-
-      <div class="scoring-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/4471/4471556.png" alt="Panel de Scoring" class="scoring-icon">
-        <h3>Actualización Diaria</h3>
-        <p>Tu puntuación se actualiza automáticamente según tus resultados y tendencias de facturación, sin papeleo ni esperas.</p>
-      </div>
-
-      <div class="scoring-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/4762/4762311.png" alt="Crédito Inteligente" class="scoring-icon">
-        <h3>Acceso a Financiación</h3>
-        <p>Según tu scoring, desbloqueas tramos de crédito desde 1.000 € hasta 25.000 €, ajustados a tus ventas reales.</p>
-      </div>
+      <nav class="main-nav" aria-label="Principal">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#inputs">Datos</a>
+        <a href="#resultado">Resultado</a>
+        <a href="#faq">FAQ</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="scoring-image">
-      <img src="img/ia-dashboard.png" alt="Booh Finance IA Dashboard">
-    </div>
-
-    <div class="cta-box">
-      <p>Tu puntuación IA es la clave para acceder al crédito más rápido del sector.</p>
-      <a href="#simulador" class="cta-button">Simula tu crédito</a>
+  <!-- HERO -->
+  <section class="hero">
+    <!-- Reemplaza esta imagen por una mezcla de gráfica + hostelero real -->
+    <!-- Ejemplo de ruta: /assets/hero-hostelero-grafica.jpg -->
+    <img class="hero-img" src="assets/hero-hostelero-grafica.jpg" alt="Restaurador mirando una gráfica de ventas" />
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h1>Booh Scoring</h1>
+      <p>Evaluamos el riesgo en tiempo real con tus ventas, tickets medios, recurrencia y señales de plataforma. Transparente y pensado para crecer tus pedidos.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#inputs">Calcular mi score</a>
+        <a class="btn btn-ghost" href="#como-funciona">Ver cómo funciona</a>
+      </div>
     </div>
   </section>
-</body>
-</html>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" class="section">
+    <div class="container">
+      <h2 class="section-title">Cómo funciona el scoring</h2>
+      <div class="grid grid-3">
+        <article class="card step">
+          <div class="step-number">1</div>
+          <h3>Conecta datos</h3>
+          <p>Ventas por plataforma (Glovo, Just Eat, Uber Eats), TPV y extractos bancarios (solo lectura). Sin fricción y con consentimiento.</p>
+        </article>
+        <article class="card step">
+          <div class="step-number">2</div>
+          <h3>Analizamos señales</h3>
+          <p>Volumen, estacionalidad, % repetición, tickets, rating, tiempos, cancelaciones y gasto publicitario. Todo ponderado por tu vertical.</p>
+        </article>
+        <article class="card step">
+          <div class="step-number">3</div>
+          <h3>Score & límite</h3>
+          <p>Te damos un <strong>score 0–100</strong>, un <strong>límite de
