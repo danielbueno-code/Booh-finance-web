@@ -629,32 +629,31 @@ header {
 }
 
 
-/* ===== Ajuste IA Pricing para móviles ===== */
+/* ===== IA Pricing 100% vertical en móvil ===== */
 @media (max-width: 768px) {
   #ai {
-    padding-top: 2.5rem;         /* reduce espacio arriba */
-    padding-bottom: 3rem;        /* un poco menos abajo */
+    padding: 3rem 1.5rem;
   }
 
+  /* disposición en columna */
   #ai .ai-content {
-    flex-direction: column;
-    align-items: center;
+    display: block !important;      /* anula el flex horizontal */
     text-align: center;
-    gap: 1rem;                   /* menor separación entre texto e imagen */
   }
 
   #ai .ai-text {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   #ai .ai-image {
-    margin-top: 0;               /* elimina hueco vertical */
+    margin: 0 auto;
+    text-align: center;
   }
 
   #ai .ai-image img {
-    max-width: 90%;
+    width: 90%;
+    max-width: 380px;
     margin: 0 auto;
-    margin-top: 0;               /* elimina espacio entre párrafo e imagen */
     display: block;
   }
 }
