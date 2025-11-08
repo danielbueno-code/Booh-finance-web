@@ -1,0 +1,2 @@
+<?php
+echo "✅ PHP funcionando correctamente. Version: " . phpversion();
