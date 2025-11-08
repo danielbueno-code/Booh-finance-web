@@ -6,12 +6,10 @@
   <title>IA Scoring | Booh! Finance</title>
   <meta name="description" content="Calcula el score de tu restaurante digital y descubre tu límite de crédito con Booh! Finance.">
 
-  <!-- Fuente -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <style>
-  /* === VARIABLES Y BASE === */
   :root {
     --booh-blue: #00AFD8;
     --accent: #28E1FF;
@@ -46,26 +44,60 @@
     max-width: 1200px;
     margin: 0 auto;
   }
-  .logo {
-    height: 40px;
-    width: auto;
-  }
+  .logo { height: 40px; width: auto; }
   .navbar ul {
     display: flex;
     list-style: none;
     gap: 1.5rem;
+    transition: all .3s ease;
   }
   .navbar a {
     color: var(--text);
     font-weight: 500;
     opacity: .85;
   }
-  .navbar a:hover,
-  .navbar a.active {
-    color: var(--booh-blue);
-    opacity: 1;
+  .navbar a:hover, .navbar a.active { color: var(--booh-blue); opacity: 1; }
+
+  /* === MENÚ MÓVIL === */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
-  .menu-toggle { display: none; }
+  .menu-toggle span {
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+  }
+  @media (max-width: 900px) {
+    .navbar ul {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      left: 0;
+      flex-direction: column;
+      background: rgba(7,11,18,0.98);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+    }
+    .navbar ul.open {
+      max-height: 420px;
+      opacity: 1;
+      padding: 16px 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .navbar ul li {
+      text-align: center;
+      padding: 10px 0;
+    }
+    .menu-toggle { display: flex; }
+  }
 
   /* === HERO === */
   .hero {
@@ -133,9 +165,7 @@
   }
 
   /* === SECCIONES === */
-  .section {
-    padding: 70px 0;
-  }
+  .section { padding: 70px 0; }
   .section-alt {
     background: linear-gradient(180deg, #0A111B 0%, #05080E 100%);
   }
@@ -145,18 +175,11 @@
     margin-bottom: 30px;
     font-weight: 700;
   }
-  .container {
-    width: min(1100px, 90%);
-    margin-inline: auto;
-  }
-  .grid {
-    display: grid;
-    gap: 20px;
-  }
+  .container { width: min(1100px, 90%); margin-inline: auto; }
+  .grid { display: grid; gap: 20px; }
   .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
   .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
-  /* === TARJETAS === */
   .card {
     background: var(--bg-soft);
     border: 1px solid rgba(255,255,255,0.08);
@@ -165,21 +188,13 @@
   }
 
   /* === PASOS === */
-  #como-funciona .step {
-    position: relative;
-    padding-top: 30px;
-  }
+  #como-funciona .step { position: relative; padding-top: 30px; }
   .step-number {
     position: absolute;
-    top: -15px;
-    left: -15px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-weight: 900;
-    color: #001018;
+    top: -15px; left: -15px;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 900; color: #001018;
     background: linear-gradient(180deg, var(--booh-blue), var(--accent));
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   }
@@ -190,13 +205,8 @@
     gap: 14px;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .form-field input,
-  .form-field select {
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field input, .form-field select {
     background: var(--bg-soft);
     color: var(--text);
     border: 1px solid rgba(255,255,255,0.12);
@@ -208,22 +218,15 @@
     text-align: center;
     margin-top: 16px;
   }
-  .hint {
-    color: var(--text-muted);
-    font-size: .9rem;
-  }
+  .hint { color: var(--text-muted); font-size: .9rem; }
 
   /* === GAUGE === */
   .gauge-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    aspect-ratio: 1 / 0.6;
-    margin: 0 auto;
+    position: relative; width: 100%; max-width: 400px;
+    aspect-ratio: 1 / 0.6; margin: 0 auto;
   }
   .gauge-arc {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background: conic-gradient(#FF6B6B 0turn, #FF6B6B 0.2turn, #F6C344 0.35turn, #20D489 0.5turn, transparent 0.5turn);
     -webkit-mask: radial-gradient(100% 100% at 50% 100%, transparent 56%, #000 56.5%), linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
@@ -270,13 +273,31 @@
   .dot-mid { background: #F6C344; }
   .dot-high { background: #FF6B6B; }
 
+  /* === TABLA (KV) AJUSTADA: CLAVE / VALOR SEPARADOS === */
   #resultado .kv {
     display: grid;
-    gap: 6px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 12px;
   }
-  #resultado .kv .k { color: var(--text-muted); }
-  #resultado .kv .v { font-weight: 700; }
+  #resultado .kv div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+  }
+  #resultado .kv .k {
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  #resultado .kv .v {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1rem;
+  }
   #resultado .note { color: var(--text-muted); font-size: .85rem; margin-top: 8px; }
 
   /* === FOOTER === */
@@ -296,7 +317,7 @@
   <header>
     <nav class="navbar">
       <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
-      <ul>
+      <ul id="menu">
         <li><a href="index.html#home">Inicio</a></li>
         <li><a href="index.html#how">Cómo funciona</a></li>
         <li><a href="index.html#benefits">Ventajas</a></li>
@@ -305,7 +326,9 @@
         <li><a href="simulador.html">Simulador</a></li>
         <li><a href="index.html#contact">Contacto</a></li>
       </ul>
-      <button class="menu-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
 
@@ -352,22 +375,22 @@
   <section id="inputs" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Introduce tus datos</h2>
-      <form class="card form-grid">
-        <div class="form-field"><label>Ventas mensuales (€)</label><input id="ventas" type="number" placeholder="18.500"></div>
-        <div class="form-field"><label>Ticket medio (€)</label><input id="ticket" type="number" placeholder="19,80"></div>
-        <div class="form-field"><label>Pedidos mensuales</label><input id="pedidos" type="number" placeholder="930"></div>
-        <div class="form-field"><label>Repetición (%)</label><input id="repeat" type="number" placeholder="32"></div>
-        <div class="form-field"><label>Rating (0–5)</label><input id="rating" type="number" placeholder="4,6"></div>
-        <div class="form-field"><label>Cancelaciones (%)</label><input id="cancel" type="number" placeholder="2,3"></div>
-        <div class="form-field"><label>Antigüedad (meses)</label><input id="months" type="number" placeholder="14"></div>
-        <div class="form-field"><label>Estacionalidad</label>
-          <select id="season"><option value="">Selecciona</option><option>Baja</option><option>Media</option><option>Alta</option></select>
-        </div>
-        <div class="form-actions">
-          <button type="button" id="btn-calcular" class="btn btn-primary">Calcular score</button>
-          <p class="hint">Tus datos son privados. No se almacenan.</p>
-        </div>
-      </form>
+    <form class="card form-grid">
+      <div class="form-field"><label>Ventas mensuales (€)</label><input id="ventas" type="number" placeholder="18.500"></div>
+      <div class="form-field"><label>Ticket medio (€)</label><input id="ticket" type="number" placeholder="19,80"></div>
+      <div class="form-field"><label>Pedidos mensuales</label><input id="pedidos" type="number" placeholder="930"></div>
+      <div class="form-field"><label>Repetición (%)</label><input id="repeat" type="number" placeholder="32"></div>
+      <div class="form-field"><label>Rating (0–5)</label><input id="rating" type="number" placeholder="4,6"></div>
+      <div class="form-field"><label>Cancelaciones (%)</label><input id="cancel" type="number" placeholder="2,3"></div>
+      <div class="form-field"><label>Antigüedad (meses)</label><input id="months" type="number" placeholder="14"></div>
+      <div class="form-field"><label>Estacionalidad</label>
+        <select id="season"><option value="">Selecciona</option><option>Baja</option><option>Media</option><option>Alta</option></select>
+      </div>
+      <div class="form-actions">
+        <button type="button" id="btn-calcular" class="btn btn-primary">Calcular score</button>
+        <p class="hint">Tus datos son privados. No se almacenan.</p>
+      </div>
+    </form>
     </div>
   </section>
 
@@ -404,13 +427,19 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    © <span id="year"></span> Booh! Finance — Todos los derechos reservados.
-  </footer>
+  <footer>© <span id="year"></span> Booh! Finance — Todos los derechos reservados.</footer>
 
   <!-- JS -->
   <script>
+    // Año
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Menú móvil
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    toggle.addEventListener('click', () => menu.classList.toggle('open'));
+
+    // Demo scoring
     const btn = document.getElementById("btn-calcular");
     const needle = document.getElementById("needle");
     const scoreNum = document.getElementById("score-number");
@@ -423,6 +452,17 @@
       if (score >= 80) { badge.textContent = "Bajo riesgo"; badge.style.color="#20D489"; }
       else if (score >= 60) { badge.textContent = "Medio"; badge.style.color="#F6C344"; }
       else { badge.textContent = "Alto"; badge.style.color="#FF6B6B"; }
+
+      // valores orientativos simples
+      const ventas = parseFloat((document.getElementById('ventas').value || '0').replace(',', '.')) || 0;
+      const ticket = parseFloat((document.getElementById('ticket').value || '0').replace(',', '.')) || 0;
+      const pedidos = parseFloat(document.getElementById('pedidos').value || '0') || 0;
+      const base = ventas || (ticket * pedidos);
+      const limite = Math.max(0, Math.round(base * (score / 120)));
+      document.getElementById('limite').textContent = '€ ' + (limite).toLocaleString('es-ES');
+      document.getElementById('tipo').textContent = score >= 80 ? '7,5% TIN' : score >= 60 ? '9,8% TIN' : '12,5% TIN';
+      document.getElementById('plazo').textContent = score >= 80 ? '4–6 meses' : score >= 60 ? '3–6 meses' : '2–4 meses';
+      document.getElementById('retencion').textContent = score >= 80 ? '15%' : score >= 60 ? '18%' : '22%';
     });
   </script>
 </body>
