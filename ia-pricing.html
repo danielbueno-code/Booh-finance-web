@@ -4,399 +4,127 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IA Pricing | Booh! Finance</title>
-  <meta name="description" content="Booh! Finance IA Pricing: precios dinámicos basados en datos reales de ventas y comportamiento del mercado.">
+  <meta name="description" content="Booh! IA Pricing: demo de precios inteligentes para restaurantes digitales.">
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
   <style>
-  :root { --booh-blue:#00AFD8; --accent:#28E1FF; --bg:#05080E; --bg-soft:#0B1018; --text:#E6F1FA; --text-muted:#8AA0B4; }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Roboto",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
+    :root {
+      --booh-blue:#00AFD8; --accent:#28E1FF;
+      --bg:#05080E; --bg-soft:#0B1018;
+      --text:#E6F1FA; --text-muted:#8AA0B4;
+    }
+    body{font-family:"Roboto",sans-serif;background:var(--bg);color:var(--text);margin:0;-webkit-font-smoothing:antialiased;}
+    .container{width:min(1100px,90%);margin:auto;padding:60px 0;}
+    h1,h2{text-align:center;font-weight:900;margin-bottom:20px;}
+    p.center{color:var(--text-muted);text-align:center;max-width:700px;margin:0 auto 30px;}
 
-  /* HEADER */
-  header{position:sticky;top:0;z-index:100;background:rgba(7,11,18,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.1)}
-  .navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
-  .logo{height:40px;width:auto}
-  .navbar ul{display:flex;list-style:none;gap:1.5rem;transition:all .3s ease}
-  .navbar a{color:var(--text);font-weight:500;opacity:.85}
-  .navbar a:hover,.navbar a.active{color:var(--booh-blue);opacity:1}
-  .menu-toggle{display:none;flex-direction:column;justify-content:space-between;width:24px;height:18px;background:none;border:0;cursor:pointer}
-  .menu-toggle span{height:2px;background:#fff;border-radius:2px}
-  @media (max-width:900px){
-    .navbar ul{position:absolute;top:60px;right:0;left:0;flex-direction:column;background:rgba(7,11,18,.98);max-height:0;overflow:hidden;opacity:0}
-    .navbar ul.open{max-height:420px;opacity:1;padding:16px 0;border-top:1px solid rgba(255,255,255,.12)}
-    .navbar ul li{text-align:center;padding:10px 0}
-    .menu-toggle{display:flex}
-  }
+    .sim-card{background:var(--bg-soft);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,.1);}
+    .sim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px;}
 
-  /* HERO */
-  .hero{position:relative;min-height:70vh;display:grid;place-items:center;overflow:hidden;text-align:center;background:linear-gradient(180deg,#08111A 0%, #05080E 100%)}
-  .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35}
-  .hero-overlay{position:absolute;inset:0;background:radial-gradient(circle at 30% 40%, rgba(0,175,216,.25), rgba(0,0,0,.85))}
-  .hero-content{position:relative;z-index:2;max-width:750px;padding:40px 20px}
-  .hero h1{font-size:2.8rem;font-weight:900;margin-bottom:10px}
-  .hero p{color:var(--text-muted);font-size:1.1rem;margin-bottom:24px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:999px;font-weight:700;cursor:pointer}
-  .btn-primary{background:linear-gradient(180deg,var(--booh-blue),var(--accent));color:#001018;border:none}
-  .btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--text);background:transparent}
+    label{font-weight:600;font-size:.9rem;margin-bottom:3px;}
+    select,input{
+      width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.05);color:var(--text);
+    }
+    select:disabled,input:disabled{opacity:.6;cursor:not-allowed;}
 
-  /* SECCIONES */
-  .section{padding:70px 0}
-  .section-alt{background:linear-gradient(180deg,#0A111B 0%, #05080E 100%)}
-  .section-title{text-align:center;font-size:2rem;margin-bottom:30px;font-weight:700}
-  .container{width:min(1100px,90%);margin-inline:auto}
-  .grid{display:grid;gap:20px}
-  .grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-
-  .card{background:var(--bg-soft);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px}
-
-  /* PRICING CARDS */
-  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-  .pricing-card{background:var(--bg-soft);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:28px 22px;text-align:center}
-  .pricing-card h3{font-size:1.4rem;color:var(--booh-blue);margin-bottom:10px}
-  .price{font-size:2rem;font-weight:900;margin:8px 0 4px}
-  .pricing-card p{color:var(--text-muted);margin-bottom:12px}
-  .badge{display:inline-block;background:var(--booh-blue);color:#001018;font-weight:800;font-size:.75rem;border-radius:999px;padding:4px 10px;margin-bottom:8px}
-
-  /* SIMULADOR AVANZADO */
-  .sim-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
-  @media (max-width:900px){ .sim-wrap{grid-template-columns:1fr} }
-  .sim-card{padding:20px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:var(--bg-soft)}
-  .sim-grid{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-  @media (max-width:700px){ .sim-grid{grid-template-columns:1fr} }
-
-  .sim-field{display:flex;flex-direction:column;gap:6px}
-  .sim-field input,.sim-field select{
-    background:var(--bg-soft);color:var(--text);
-    border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px
-  }
-  .sim-help{color:var(--text-muted);font-size:.9rem}
-  .sim-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-
-  /* tabla de plataformas */
-  .plat-table{width:100%;border-collapse:separate;border-spacing:0 8px}
-  .plat-row{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;display:grid;grid-template-columns:1fr .7fr;gap:10px;padding:10px 12px;align-items:center}
-  .plat-badge{display:inline-flex;align-items:center;gap:8px;font-weight:700}
-  .plat-dot{width:10px;height:10px;border-radius:50%}
-  .glovo{color:#ffd400}.glovo .plat-dot{background:#ffd400}
-  .justeat{color:#ff5a3c}.justeat .plat-dot{background:#ff5a3c}
-  .ubereats{color:#3ad075}.ubereats .plat-dot{background:#3ad075}
-
-  /* chart barras */
-  .chart{margin-top:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px}
-  .chart-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin:8px 0}
-  .chart-label{color:var(--text-muted);font-weight:600}
-  .chart-bar{height:14px;border-radius:999px;background:rgba(255,255,255,.06);position:relative;overflow:hidden}
-  .chart-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--booh-blue),var(--accent));border-radius:999px;transition:width .6s ease}
-  .pill{display:inline-block;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:4px 10px;font-weight:700}
-  .pill-pos{color:#12d08a;border-color:rgba(18,208,138,.35)} .pill-neg{color:#ff6b6b;border-color:rgba(255,107,107,.35)}
-
-  .result-box{margin-top:12px;display:grid;gap:10px}
-  .result-line{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px}
-  .cta-center{text-align:center;margin-top:14px}
-
-  /* FAQ */
-  #faq details{background:var(--bg-soft);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;margin-bottom:10px}
-  #faq summary{font-weight:600;cursor:pointer}
-
-  /* FOOTER */
-  footer{background:#070B12;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:var(--text-muted);padding:20px 0;font-size:.9rem}
+    .btn{background:linear-gradient(180deg,var(--booh-blue),var(--accent));color:#001018;
+      padding:12px 20px;border-radius:999px;font-weight:700;border:none;cursor:pointer;}
+    .result-box{margin-top:20px;display:grid;gap:10px;}
+    .result-line{background:rgba(255,255,255,.05);padding:10px 14px;border-radius:8px;
+      display:flex;justify-content:space-between;align-items:center;}
+    .pill{border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:4px 10px;font-weight:700;}
+    .pill-pos{color:#12d08a;border-color:#12d08a;}
+    .pill-neg{color:#ff6b6b;border-color:#ff6b6b;}
+    .chart{margin-top:20px;background:rgba(255,255,255,.04);border-radius:10px;padding:12px;}
+    .chart-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin:6px 0;}
+    .chart-label{color:var(--text-muted);font-weight:600;}
+    .chart-bar{height:14px;background:rgba(255,255,255,.1);border-radius:999px;position:relative;}
+    .chart-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--booh-blue),var(--accent));
+      border-radius:999px;width:0%;transition:width .6s;}
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
-      <ul id="menu">
-        <li><a href="index.html#home">Inicio</a></li>
-        <li><a href="index.html#how">Cómo funciona</a></li>
-        <li><a href="index.html#benefits">Ventajas</a></li>
-        <li><a class="active" href="#">IA Pricing</a></li>
-        <li><a href="ia-scoring.html">IA Scoring</a></li>
-        <li><a href="simulador.html">Simulador</a></li>
-        <li><a href="index.html#contact">Contacto</a></li>
-      </ul>
-      <button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button>
-    </nav>
-  </header>
+  <div class="container">
+    <h1>Booh! IA Pricing</h1>
+    <p class="center">
+      Descubre cómo nuestra inteligencia artificial analiza precios reales de mercado y optimiza el margen de cada producto.
+      Esta demo usa datos simulados para mostrar el potencial del sistema.
+    </p>
 
-  <!-- HERO -->
-  <section class="hero">
-    <img src="assets/hero-ia-pricing.jpg" alt="Gráficas de precios dinámicos en tablet" class="hero-img">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Booh IA Pricing</h1>
-      <p>Algoritmos de precios dinámicos para restaurantes digitales.  
-         Optimiza márgenes, ajusta precios y maximiza ventas.</p>
-      <a href="#simulador" class="btn btn-primary">Probar ahora</a>
-    </div>
-  </section>
-
-  <!-- QUÉ ES -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">¿Qué es el IA Pricing?</h2>
-      <p style="text-align:center;color:var(--text-muted);max-width:800px;margin:0 auto;">
-        IA Pricing compara precios del mercado en plataformas y sugiere el precio óptimo por producto,
-        teniendo en cuenta elasticidad, comisión, IVA y margen para maximizar tu beneficio neto.
-      </p>
-    </div>
-  </section>
-
-  <!-- CÓMO FUNCIONA -->
-  <section class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Cómo funciona</h2>
-      <div class="grid grid-3">
-        <article class="card"><h3>1. Conecta plataformas</h3><p>Glovo, Just Eat, Uber Eats o TPV. Solo lectura.</p></article>
-        <article class="card"><h3>2. Compara mercado</h3><p>Detectamos el precio medio por zona y categoría.</p></article>
-        <article class="card"><h3>3. Ajuste inteligente</h3><p>IA sugiere el precio óptimo para maximizar beneficio.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLANES -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Planes de uso</h2>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <h3>Básico</h3>
-          <div class="price">€99/mes</div>
-          <p>Precio mensual fijo durante la vigencia del contrato.</p>
-          <a href="#simulador" class="btn btn-primary">Empezar</a>
+    <div class="sim-card">
+      <div class="sim-grid">
+        <div>
+          <label>Producto</label>
+          <select id="producto">
+            <option value="burger">🍔 Burger</option>
+            <option value="pizza">🍕 Pizza</option>
+            <option value="burrito">🌯 Burrito</option>
+          </select>
         </div>
-        <div class="pricing-card">
-          <h3>Pro</h3>
-          <span class="badge">Sin crédito asociado</span>
-          <div class="price">€199/mes</div>
-          <p>IA Pricing avanzado con integración total y soporte personalizado. <strong>No requiere contratación de crédito.</strong></p>
-          <a href="#simulador" class="btn btn-primary">Contratar</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SIMULADOR AVANZADO -->
-  <section id="simulador" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Simula tu precio óptimo</h2>
-
-      <div class="sim-wrap">
-        <!-- LADO IZQUIERDO: Inputs & plataformas -->
-        <div class="sim-card">
-          <div class="sim-grid">
-            <div class="sim-field">
-              <label>Producto</label>
-              <select id="producto">
-                <option value="burger">🍔 Burger</option>
-                <option value="pizza">🍕 Pizza</option>
-                <option value="burrito">🌯 Burrito</option>
-              </select>
-            </div>
-            <div class="sim-field">
-              <label>Tu precio actual (€)</label>
-              <input id="precioActual" type="number" placeholder="p.ej. 9.90" step="0.01">
-            </div>
-            <div class="sim-field">
-              <label>Unidades/mes</label>
-              <input id="unidades" type="number" placeholder="p.ej. 1200">
-            </div>
-            <div class="sim-field">
-              <label>Coste unitario (€)</label>
-              <input id="costeUnit" type="number" placeholder="p.ej. 3.00" step="0.01">
-            </div>
-            <div class="sim-field">
-              <label>Comisión plataforma (%)</label>
-              <input id="comision" type="number" placeholder="30" step="0.1">
-            </div>
-            <div class="sim-field">
-              <label>IVA (%)</label>
-              <input id="iva" type="number" placeholder="10" step="0.1">
-            </div>
-            <div class="sim-field">
-              <label>Elasticidad precio (negativa)</label>
-              <input id="elasticidad" type="number" placeholder="-1.1" step="0.1">
-            </div>
-            <div class="sim-field">
-              <label>Ajuste IA sobre mercado (%)</label>
-              <input id="delta" type="number" placeholder="8" step="0.1">
-            </div>
-          </div>
-
-          <div class="sim-btns">
-            <button id="btnCalcular" class="btn btn-primary">Calcular</button>
-            <button id="btnReset" class="btn btn-ghost" type="button">Reset</button>
-          </div>
-
-          <p class="sim-help">Los datos de plataformas son estimaciones de mercado para demo.  
-          Con la integración real, se consultan en tiempo real por ciudad y categoría.</p>
-
-          <h3 style="margin-top:16px;margin-bottom:8px">Precios medios por plataforma</h3>
-          <div class="plat-table" id="tablaPlataformas">
-            <!-- filas dinámicas -->
-          </div>
-
-          <div class="chart" id="chart">
-            <div class="chart-row"><div class="chart-label">Tu precio</div><div class="chart-bar"><div class="chart-fill" id="barActual"></div></div></div>
-            <div class="chart-row"><div class="chart-label">Media mercado</div><div class="chart-bar"><div class="chart-fill" id="barMercado"></div></div></div>
-            <div class="chart-row"><div class="chart-label">IA sugerido</div><div class="chart-bar"><div class="chart-fill" id="barIA"></div></div></div>
-          </div>
-        </div>
-
-        <!-- LADO DERECHO: Resultados -->
-        <div class="sim-card">
-          <h3 style="margin-bottom:8px">Resultado</h3>
-          <div class="result-box">
-            <div class="result-line"><span>Precio IA sugerido</span><strong id="outPrecioIA">—</strong></div>
-            <div class="result-line"><span>Variación vs. tu precio</span><span id="outDeltaPrecio" class="pill">—</span></div>
-            <div class="result-line"><span>Unidades previstas</span><strong id="outUnidades">—</strong></div>
-            <div class="result-line"><span>Beneficio mensual actual</span><strong id="outBeneficio0">—</strong></div>
-            <div class="result-line"><span>Beneficio mensual con IA</span><strong id="outBeneficio1">—</strong></div>
-            <div class="result-line"><span>Diferencia estimada</span><strong id="outDiff" class="pill">—</strong></div>
-          </div>
-
-          <div class="cta-center">
-            <a href="index.html#contact" class="btn btn-primary">Solicitar demo completa</a>
-            <p class="sim-help" style="margin-top:8px">La versión <strong>Pro</strong> no requiere contratación de crédito y aplica los cambios automáticamente.</p>
-          </div>
+        <div>
+          <label>Unidades vendidas/mes</label>
+          <input id="unidades" type="number" placeholder="Introduce tus ventas" min="100" step="10">
         </div>
       </div>
 
-    </div>
-  </section>
+      <div style="text-align:center;margin-top:20px;">
+        <button id="calcular" class="btn">Simular</button>
+      </div>
 
-  <!-- FAQ -->
-  <section id="faq" class="section">
-    <div class="container">
-      <h2 class="section-title">Preguntas frecuentes</h2>
-      <details><summary>¿Cómo se calculan los precios?</summary><p>Mediante algoritmos que ponderan demanda, competencia, elasticidad y margen neto.</p></details>
-      <details><summary>¿Puedo aceptar o rechazar sugerencias?</summary><p>Sí. Puedes configurarlo manual o automático.</p></details>
-      <details><summary>¿Requiere conexión a plataformas?</summary><p>Para datos reales sí; esta demo usa precios promedio estimados.</p></details>
-    </div>
-  </section>
+      <div class="chart">
+        <div class="chart-row"><div class="chart-label">Tu precio</div><div class="chart-bar"><div class="chart-fill" id="barTu"></div></div></div>
+        <div class="chart-row"><div class="chart-label">Media mercado</div><div class="chart-bar"><div class="chart-fill" id="barMercado"></div></div></div>
+        <div class="chart-row"><div class="chart-label">IA sugerido</div><div class="chart-bar"><div class="chart-fill" id="barIA"></div></div></div>
+      </div>
 
-  <!-- FOOTER -->
-  <footer>© <span id="year"></span> Booh! Finance — Todos los derechos reservados.</footer>
+      <div class="result-box">
+        <div class="result-line"><span>Precio IA sugerido</span><strong id="outPrecioIA">—</strong></div>
+        <div class="result-line"><span>Impacto en ventas</span><span id="outImpacto" class="pill">—</span></div>
+        <div class="result-line"><span>Beneficio estimado</span><strong id="outBeneficio" class="pill">—</strong></div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // Año y menú móvil
-    document.getElementById("year").textContent = new Date().getFullYear();
-    const toggle = document.getElementById('menu-toggle'); const menu = document.getElementById('menu');
-    toggle.addEventListener('click', () => menu.classList.toggle('open'));
-
-    // Dataset de demo (precios medios por plataforma + delta sugerido IA)
-    const DATA = {
-      burger:  { name:"Burger",  glovo:10.5, justeat:10.9, ubereats:10.3, delta:8 },
-      pizza:   { name:"Pizza",   glovo:12.8, justeat:13.5, ubereats:13.0, delta:6 },
-      burrito: { name:"Burrito", glovo:9.2,  justeat:9.8,  ubereats:9.5,  delta:7 }
+    const data = {
+      burger:  { pTu:10.0, pMercado:10.6, pIA:10.9, elasticidad:-1.1 },
+      pizza:   { pTu:13.0, pMercado:13.4, pIA:13.8, elasticidad:-1.0 },
+      burrito: { pTu:9.0,  pMercado:9.5,  pIA:9.8,  elasticidad:-1.2 }
     };
 
-    // Helpers
-    const fmtEur = n => "€ " + n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
-    const id = s => document.getElementById(s);
-    function parseNum(v, def=0){ const n = parseFloat(String(v).replace(',','.')); return isNaN(n)?def:n; }
+    const el = id => document.getElementById(id);
+    const fmt = n => "€ " + n.toFixed(2);
 
-    // UI elements
-    const el = {
-      producto: id('producto'), precioActual: id('precioActual'), unidades: id('unidades'),
-      costeUnit: id('costeUnit'), comision: id('comision'), iva: id('iva'),
-      elasticidad: id('elasticidad'), delta: id('delta'),
-      tablaPlataformas: id('tablaPlataformas'),
-      barActual: id('barActual'), barMercado: id('barMercado'), barIA: id('barIA'),
-      outPrecioIA: id('outPrecioIA'), outDeltaPrecio: id('outDeltaPrecio'),
-      outUnidades: id('outUnidades'), outBeneficio0: id('outBeneficio0'),
-      outBeneficio1: id('outBeneficio1'), outDiff: id('outDiff')
-    };
+    function simular() {
+      const key = el("producto").value;
+      const ventas = parseFloat(el("unidades").value) || 1000;
+      const {pTu,pMercado,pIA,elasticidad} = data[key];
 
-    // Crear tabla plataformas
-    function renderPlatforms(prod) {
-      const rows = [
-        { key:'glovo',    label:'Glovo',    cls:'glovo'    },
-        { key:'justeat',  label:'Just Eat', cls:'justeat'  },
-        { key:'ubereats', label:'Uber Eats',cls:'ubereats' }
-      ].map(p => {
-        const price = DATA[prod][p.key];
-        return `
-          <div class="plat-row">
-            <div class="plat-badge ${p.cls}"><span class="plat-dot"></span>${p.label}</div>
-            <div style="text-align:right;font-weight:700">${fmtEur(price)}</div>
-          </div>
-        `;
-      }).join('');
-      el.tablaPlataformas.innerHTML = rows;
+      // estimar cambio de ventas
+      const ventasIA = Math.round(ventas * Math.pow(pIA/pTu, elasticidad));
+      const impacto = ((ventasIA - ventas)/ventas)*100;
+
+      // margen simple
+      const beneficio = ((pIA - 3) * ventasIA).toFixed(0);
+
+      // mostrar resultados
+      el("outPrecioIA").textContent = fmt(pIA);
+      el("outImpacto").textContent = (impacto>=0?"+":"")+impacto.toFixed(1)+" %";
+      el("outImpacto").className = "pill " + (impacto>=0?"pill-pos":"pill-neg");
+      el("outBeneficio").textContent = "€ " + beneficio;
+      el("outBeneficio").className = "pill pill-pos";
+
+      // barras comparativas
+      const max = Math.max(pTu,pMercado,pIA)*1.15;
+      el("barTu").style.width = (pTu/max*100)+"%";
+      el("barMercado").style.width = (pMercado/max*100)+"%";
+      el("barIA").style.width = (pIA/max*100)+"%";
     }
 
-    // Chart widths
-    function setBar(elm, value, max) {
-      const w = Math.max(0, Math.min(100, (value / max) * 100));
-      elm.style.width = w + '%';
-    }
-
-    // Cálculo principal
-    function calcular() {
-      const prodKey = el.producto.value;
-      const prod = DATA[prodKey];
-
-      // Defaults si inputs vacíos
-      if (!el.precioActual.value) el.precioActual.value = (prod.glovo+prod.justeat+prod.ubereats)/3;
-      if (!el.unidades.value) el.unidades.value = 1000;
-      if (!el.costeUnit.value) el.costeUnit.value = 3.00;
-      if (!el.comision.value) el.comision.value = 30;
-      if (!el.iva.value) el.iva.value = 10;
-      if (!el.elasticidad.value) el.elasticidad.value = -1.1;
-      if (!el.delta.value) el.delta.value = prod.delta;
-
-      const pAct = parseNum(el.precioActual.value);
-      const q0 = Math.max(0, Math.round(parseNum(el.unidades.value)));
-      const c = parseNum(el.costeUnit.value);
-      const a = parseNum(el.comision.value)/100;
-      const t = parseNum(el.iva.value)/100;
-      const e = parseNum(el.elasticidad.value);
-      const d = parseNum(el.delta.value)/100;
-
-      const pG = prod.glovo, pJ = prod.justeat, pU = prod.ubereats;
-      const pMercado = (pG + pJ + pU) / 3;
-
-      // Precio IA sugerido = media de mercado * (1 + delta)
-      const pIA = +(pMercado * (1 + d)).toFixed(2);
-
-      // Unidades nuevas con elasticidad: q1 = q0 * (pIA/pAct)^e
-      const q1 = Math.max(0, Math.round(q0 * Math.pow(pIA / pAct, e)));
-
-      // Márgenes (precio neto sin IVA, luego comisión)
-      const pActNet = pAct / (1 + t);
-      const pIANet  = pIA  / (1 + t);
-      const m0 = pActNet * (1 - a) - c;
-      const m1 = pIANet  * (1 - a) - c;
-
-      const pi0 = m0 * q0;
-      const pi1 = m1 * q1;
-      const diff = pi1 - pi0;
-
-      // Salidas
-      el.outPrecioIA.textContent = fmtEur(pIA);
-      const deltaPct = ((pIA - pAct) / pAct) * 100;
-      el.outDeltaPrecio.textContent = (deltaPct>=0?'+':'') + deltaPct.toFixed(1) + '%';
-      el.outDeltaPrecio.className = 'pill ' + (deltaPct>=0?'pill-pos':'pill-neg');
-      el.outUnidades.textContent = q1.toLocaleString('es-ES') + ' uds/mes';
-      el.outBeneficio0.textContent = fmtEur(pi0);
-      el.outBeneficio1.textContent = fmtEur(pi1);
-      el.outDiff.textContent = (diff>=0?'+':'') + fmtEur(Math.abs(diff));
-      el.outDiff.className = 'pill ' + (diff>=0?'pill-pos':'pill-neg');
-
-      // Chart
-      const maxRef = Math.max(pAct, pMercado, pIA) * 1.15;
-      setBar(el.barActual, pAct, maxRef);
-      setBar(el.barMercado, pMercado, maxRef);
-      setBar(el.barIA, pIA, maxRef);
-    }
-
-    // Eventos
-    function bootstrap() {
-      // pinta plataformas según producto y precarga precio actual con media
-      renderPlatforms(el.producto.value);
+    document.getElementById("calcular").addEventListener("click", simular);
+  </script>
+</body>
+</html>
