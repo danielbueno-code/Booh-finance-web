@@ -1652,3 +1652,234 @@ header {
     height: 60px;
   }
 }
+/* =======================================================
+   🌐 IA SCORING PAGE (Booh Finance)
+   ======================================================= */
+
+/* Sección general */
+.ia-scoring {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #0A111B 0%, #05080E 100%);
+  color: var(--text);
+}
+
+/* Encabezado */
+.ia-scoring h1 {
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+.ia-scoring p.subtitle {
+  text-align: center;
+  color: var(--text-muted, #8AA0B4);
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+/* === FORMULARIO === */
+.scoring-form {
+  max-width: 1000px;
+  margin: 0 auto 60px;
+  background: var(--card, #101720);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: var(--shadow, 0 6px 20px rgba(0,0,0,0.3));
+}
+
+.scoring-form-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.scoring-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.scoring-form input,
+.scoring-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-soft, #0B1018);
+  color: var(--text);
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.scoring-form input::placeholder {
+  color: var(--text-muted, #8AA0B4);
+}
+
+.scoring-actions {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.scoring-actions .btn {
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #00AFD8, #28E1FF);
+  color: #001018;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.scoring-actions .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* === RESULTADOS === */
+.scoring-result {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* --- Gauge circular --- */
+.gauge-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 0.6;
+  margin: 0 auto;
+}
+
+.gauge-arc {
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    #FF6B6B 0turn,
+    #FF6B6B 0.2turn,
+    #F6C344 0.35turn,
+    #20D489 0.5turn,
+    transparent 0.5turn
+  );
+  -webkit-mask:
+    radial-gradient(100% 100% at 50% 100%, transparent 56%, #000 56.5%),
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  border-bottom-left-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.gauge-needle {
+  --needle: 72;
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  width: 2px;
+  height: 46%;
+  background: white;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) rotate(calc(-90deg + (var(--needle) * 1.8deg)));
+  transition: transform 1s ease-out;
+}
+
+.gauge-label {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Leyenda */
+.scoring-legend {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  color: var(--text-muted, #8AA0B4);
+}
+.scoring-legend .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.scoring-legend .dot-low { background: #20D489; }
+.scoring-legend .dot-mid { background: #F6C344; }
+.scoring-legend .dot-high { background: #FF6B6B; }
+
+/* --- Panel lateral --- */
+.result-panel {
+  background: var(--card, #101720);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow, 0 6px 20px rgba(0,0,0,0.3));
+}
+
+.result-panel h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+.result-panel .kv {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.result-panel .kv .k {
+  color: var(--text-muted, #8AA0B4);
+}
+.result-panel .kv .v {
+  font-weight: 700;
+}
+
+.result-panel ul {
+  padding-left: 18px;
+  color: var(--text-muted, #8AA0B4);
+  margin-top: 8px;
+}
+
+.result-panel .note {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8AA0B4);
+  margin-top: 12px;
+}
+
+/* === FAQ === */
+.scoring-faq {
+  max-width: 900px;
+  margin: 60px auto 0;
+}
+
+.scoring-faq details {
+  background: var(--card, #101720);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.scoring-faq summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .ia-scoring {
+    padding: 60px 0;
+  }
+  .scoring-form {
+    padding: 20px;
+  }
+}
