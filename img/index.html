@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conectar con HubRise | Booh! Finance</title>
+
+  <!-- Tipografía y estilos básicos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --booh-blue: #00AFD8;
+      --dark-bg: #0c0f12;
+      --text-color: #fff;
+    }
+    body {
+      font-family: "Roboto", sans-serif;
+      margin: 0;
+      background: var(--dark-bg);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: rgba(0,0,0,0.4);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img {
+      height: 40px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--booh-blue);
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      color: #ccc;
+    }
+    .btn {
+      background: var(--booh-blue);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background: #0099b8;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="/img/logo-booh.png" alt="Booh! Finance">
+    <span>Integración HubRise</span>
+  </header>
+
+  <main>
+    <h1>Conecta tu cuenta HubRise</h1>
+    <p>
+      Conéctate a tu cuenta HubRise para que Booh! Finance pueda analizar tus ventas en Glovo, Just Eat y otras plataformas.
+      Solo necesitas autorizar una vez. No accedemos a datos personales ni bancarios.
+    </p>
+
+    <!-- Sustituye la URL con tu client_id y redirect correctos -->
+    <a
+      href="https://manager.hubrise.com/oauth2/authorize?client_id=TU_CLIENT_ID&redirect_uri=https://booh-finance.app/api/hubrise-callback&response_type=code"
+      class="btn"
+    >
+      🔗 Conectar con HubRise
+    </a>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Booh! Finance. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
