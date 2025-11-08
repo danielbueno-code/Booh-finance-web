@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IA Pricing | Booh! Finance</title>
-  <meta name="description" content="Booh! IA Pricing: demo de precios inteligentes para restaurantes digitales.">
+  <meta name="description" content="Booh! IA Pricing: precios dinámicos inteligentes para restaurantes digitales.">
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
       --bg:#05080E; --bg-soft:#0B1018;
       --text:#E6F1FA; --text-muted:#8AA0B4;
     }
+
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:"Roboto",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
     a{text-decoration:none;color:inherit;}
@@ -22,7 +23,8 @@
     /* HEADER */
     header{position:sticky;top:0;z-index:100;background:rgba(7,11,18,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.1);}
     .navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto;}
-    .logo{height:40px;width:auto;}
+    .logo{height:56px;width:auto;display:block;object-fit:contain;transition:transform .2s ease;}
+    .logo:hover{transform:scale(1.05);}
     .navbar ul{display:flex;list-style:none;gap:1.5rem;}
     .navbar a{color:var(--text);font-weight:500;opacity:.85;}
     .navbar a:hover,.navbar a.active{color:var(--booh-blue);opacity:1;}
@@ -34,31 +36,51 @@
       .navbar ul.open{max-height:400px;opacity:1;padding:16px 0;border-top:1px solid rgba(255,255,255,.12);}
       .navbar ul li{text-align:center;padding:10px 0;}
       .menu-toggle{display:flex;}
+      .logo{height:48px;}
     }
 
     /* HERO */
-    .hero{position:relative;min-height:70vh;display:grid;place-items:center;text-align:center;
-      background:linear-gradient(180deg,#08111A 0%,#05080E 100%);}
-    .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;}
-    .hero-overlay{position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(0,175,216,.25),rgba(0,0,0,.85));}
-    .hero-content{position:relative;z-index:2;max-width:750px;padding:40px 20px;}
+    .hero{
+      position:relative;
+      min-height:70vh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      background:linear-gradient(180deg,#08111A 0%,#05080E 100%);
+      overflow:hidden;
+    }
+    .hero-img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.55; /* más visible */
+      filter:brightness(1.05) contrast(1.1);
+      transform:scale(1.05);
+      transition:transform 15s ease-out;
+    }
+    .hero:hover .hero-img{transform:scale(1.1);}
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 30% 40%,rgba(0,175,216,.18),rgba(0,0,0,.75));
+    }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:750px;
+      padding:40px 20px;
+    }
     .hero h1{font-size:2.8rem;font-weight:900;margin-bottom:10px;}
     .hero p{color:var(--text-muted);font-size:1.1rem;margin-bottom:24px;}
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:999px;font-weight:700;cursor:pointer;}
     .btn-primary{background:linear-gradient(180deg,var(--booh-blue),var(--accent));color:#001018;border:none;}
-    .btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--text);background:transparent;}
-
-    /* SECCIONES */
-    .section{padding:70px 0;}
-    .section-alt{background:linear-gradient(180deg,#0A111B 0%,#05080E 100%);}
-    .section-title{text-align:center;font-size:2rem;margin-bottom:30px;font-weight:700;}
-    .container{width:min(1100px,90%);margin-inline:auto;}
-    .grid{display:grid;gap:20px;}
-    .grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
-
-    .card{background:var(--bg-soft);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;}
 
     /* SIMULADOR */
+    .section{padding:70px 0;}
+    .container{width:min(1100px,90%);margin-inline:auto;}
+    .section-title{text-align:center;font-size:2rem;margin-bottom:30px;font-weight:700;}
     .sim-card{background:var(--bg-soft);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,.1);}
     .sim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px;}
     label{font-weight:600;font-size:.9rem;margin-bottom:3px;}
@@ -66,8 +88,7 @@
       width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);
       background:rgba(255,255,255,.05);color:var(--text);
     }
-    input:disabled,select:disabled{opacity:.6;cursor:not-allowed;}
-    .btn{margin-top:10px;}
+    input:disabled{opacity:.6;}
     .result-box{margin-top:20px;display:grid;gap:10px;}
     .result-line{background:rgba(255,255,255,.05);padding:10px 14px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;}
     .pill{border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:4px 10px;font-weight:700;}
@@ -78,15 +99,18 @@
     .chart-label{color:var(--text-muted);font-weight:600;}
     .chart-bar{height:14px;background:rgba(255,255,255,.1);border-radius:999px;position:relative;}
     .chart-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--booh-blue),var(--accent));border-radius:999px;width:0%;transition:width .6s;}
+    .explanation{margin-top:20px;color:var(--text-muted);font-size:.95rem;background:rgba(255,255,255,.03);
+      border-radius:12px;padding:14px 18px;border:1px solid rgba(255,255,255,.05);}
     footer{background:#070B12;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:var(--text-muted);padding:20px 0;font-size:.9rem;}
   </style>
 </head>
+
 <body>
 
   <!-- HEADER -->
   <header>
     <nav class="navbar">
-      <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
+      <a href="index.html"><img src="/img/logo-booh.png" alt="Booh Finance" class="logo"></a>
       <ul id="menu">
         <li><a href="index.html#home">Inicio</a></li>
         <li><a href="index.html#how">Cómo funciona</a></li>
@@ -102,7 +126,7 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img src="img/hero-ia-pricing.png" alt="Restaurador analizando precios dinámicos" class="hero-img">
+    <img src="/img/hero-ia-pricing.png" alt="Restaurador analizando precios dinámicos" class="hero-img">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>Booh! IA Pricing</h1>
@@ -156,10 +180,13 @@
           <div class="result-line"><span>Impacto en ventas</span><span id="outImpacto" class="pill">—</span></div>
           <div class="result-line"><span>Beneficio estimado</span><strong id="outBeneficio" class="pill">—</strong></div>
         </div>
+
+        <div id="explicacion" class="explanation" style="display:none;"></div>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>© <span id="year"></span> Booh! Finance — Todos los derechos reservados.</footer>
 
   <script>
@@ -195,11 +222,22 @@
       el("barTu").style.width=(pTu/max*100)+"%";
       el("barMercado").style.width=(pMercado/max*100)+"%";
       el("barIA").style.width=(pIA/max*100)+"%";
+      // texto explicativo dinámico
+      let msg="";
+      if(impacto<0)
+        msg=`El nuevo precio sugerido por IA (${fmt(pIA)}) mejora el margen unitario aunque las ventas bajen ligeramente (${impacto.toFixed(1)}%).  
+        Esto refleja una demanda sensible al precio.`;
+      else
+        msg=`El ajuste de IA (${fmt(pIA)}) aumenta las ventas en ${impacto.toFixed(1)}%, ofreciendo un precio más competitivo sin reducir margen.`;
+      msg+=`<br><br>El algoritmo busca el equilibrio entre volumen y rentabilidad, maximizando el beneficio total mensual.`;
+      const box=el("explicacion");
+      box.innerHTML=msg;
+      box.style.display="block";
     }
 
-    document.getElementById("producto").addEventListener("change", mostrarPrecio);
-    document.getElementById("calcular").addEventListener("click", simular);
-    mostrarPrecio(); // inicializa precio al cargar
+    el("producto").addEventListener("change", mostrarPrecio);
+    el("calcular").addEventListener("click", simular);
+    mostrarPrecio();
   </script>
 </body>
 </html>
