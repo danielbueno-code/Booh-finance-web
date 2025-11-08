@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IA Pricing | Booh! Finance</title>
-  <meta name="description" content="Booh! IA Pricing: precios dinámicos basados en IA para restaurantes digitales.">
+  <meta name="description" content="Booh! IA Pricing: demo de precios inteligentes para restaurantes digitales.">
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -58,23 +58,15 @@
 
     .card{background:var(--bg-soft);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;}
 
-    /* PRICING */
-    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-    .pricing-card{background:var(--bg-soft);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:28px 22px;text-align:center;}
-    .pricing-card h3{font-size:1.4rem;color:var(--booh-blue);margin-bottom:10px;}
-    .price{font-size:2rem;font-weight:900;margin:8px 0 4px;}
-    .pricing-card p{color:var(--text-muted);margin-bottom:12px;}
-    .badge{display:inline-block;background:var(--booh-blue);color:#001018;font-weight:800;font-size:.75rem;
-      border-radius:999px;padding:4px 10px;margin-bottom:8px;}
-
     /* SIMULADOR */
     .sim-card{background:var(--bg-soft);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,.1);}
     .sim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px;}
     label{font-weight:600;font-size:.9rem;margin-bottom:3px;}
-    select,input{
+    input,select{
       width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);
       background:rgba(255,255,255,.05);color:var(--text);
     }
+    input:disabled,select:disabled{opacity:.6;cursor:not-allowed;}
     .btn{margin-top:10px;}
     .result-box{margin-top:20px;display:grid;gap:10px;}
     .result-line{background:rgba(255,255,255,.05);padding:10px 14px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;}
@@ -86,10 +78,6 @@
     .chart-label{color:var(--text-muted);font-weight:600;}
     .chart-bar{height:14px;background:rgba(255,255,255,.1);border-radius:999px;position:relative;}
     .chart-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--booh-blue),var(--accent));border-radius:999px;width:0%;transition:width .6s;}
-
-    /* FAQ / FOOTER */
-    #faq details{background:var(--bg-soft);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
-    #faq summary{font-weight:600;cursor:pointer;}
     footer{background:#070B12;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:var(--text-muted);padding:20px 0;font-size:.9rem;}
   </style>
 </head>
@@ -114,7 +102,7 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img src="/img/hero-pricing.png" alt="Restaurador analizando precios dinámicos" class="hero-img">
+    <img src="img/hero-ia-pricing.png" alt="Restaurador analizando precios dinámicos" class="hero-img">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>Booh! IA Pricing</h1>
@@ -124,47 +112,13 @@
     </div>
   </section>
 
-  <!-- QUÉ ES -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">¿Qué es el IA Pricing?</h2>
-      <p style="text-align:center;color:var(--text-muted);max-width:800px;margin:0 auto;">
-        El sistema IA Pricing compara datos de mercado en plataformas de delivery y sugiere el precio óptimo para maximizar rentabilidad.
-        En la versión Pro, el ajuste es automático y no requiere contratación de crédito.
-      </p>
-    </div>
-  </section>
-
-  <!-- PLANES -->
-  <section class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Planes de uso</h2>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <h3>Básico</h3>
-          <div class="price">€99/mes</div>
-          <p>Optimización manual con acceso a recomendaciones de precios.</p>
-          <a href="#simulador" class="btn btn-primary">Ver demo</a>
-        </div>
-        <div class="pricing-card">
-          <h3>Pro</h3>
-          <span class="badge">Sin crédito asociado</span>
-          <div class="price">€199/mes</div>
-          <p>IA Pricing avanzado con integración total y soporte personalizado.  
-             No requiere contratación de crédito.</p>
-          <a href="index.html#contact" class="btn btn-primary">Solicitar acceso</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- SIMULADOR -->
   <section id="simulador" class="section">
     <div class="container">
       <h2 class="section-title">Simulador cerrado de IA Pricing</h2>
       <p style="text-align:center;color:var(--text-muted);max-width:700px;margin:0 auto 30px;">
-        Esta demo muestra un cálculo estimado con datos de mercado simulados.  
-        Solo puedes introducir tus unidades vendidas para ver el impacto potencial.
+        Esta demo usa datos simulados de mercado. El precio de cada producto es fijo.  
+        Introduce tus unidades vendidas para estimar el impacto de la IA.
       </p>
 
       <div class="sim-card">
@@ -176,6 +130,10 @@
               <option value="pizza">🍕 Pizza</option>
               <option value="burrito">🌯 Burrito</option>
             </select>
+          </div>
+          <div>
+            <label>Precio actual (cerrado)</label>
+            <input id="precio" type="text" disabled>
           </div>
           <div>
             <label>Unidades vendidas/mes</label>
@@ -202,17 +160,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Preguntas frecuentes</h2>
-      <details><summary>¿Cómo se calculan los precios?</summary><p>Con algoritmos que ponderan demanda, competencia y margen neto.</p></details>
-      <details><summary>¿Puedo modificar precios manualmente?</summary><p>Solo en la versión Pro. Esta demo muestra valores fijos de mercado.</p></details>
-      <details><summary>¿Los datos son reales?</summary><p>No. Son precios simulados de referencia media del sector.</p></details>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>© <span id="year"></span> Booh! Finance — Todos los derechos reservados.</footer>
 
   <script>
@@ -220,13 +167,17 @@
     const toggle=document.getElementById('menu-toggle'),menu=document.getElementById('menu');
     toggle.addEventListener('click',()=>menu.classList.toggle('open'));
 
-    // dataset protegido
     const data={
       burger:{pTu:10.0,pMercado:10.6,pIA:10.9,elasticidad:-1.1},
       pizza:{pTu:13.0,pMercado:13.4,pIA:13.8,elasticidad:-1.0},
       burrito:{pTu:9.0,pMercado:9.5,pIA:9.8,elasticidad:-1.2}
     };
     const el=id=>document.getElementById(id),fmt=n=>"€ "+n.toFixed(2);
+
+    function mostrarPrecio() {
+      const {pTu} = data[el("producto").value];
+      el("precio").value = fmt(pTu);
+    }
 
     function simular(){
       const key=el("producto").value;
@@ -245,7 +196,10 @@
       el("barMercado").style.width=(pMercado/max*100)+"%";
       el("barIA").style.width=(pIA/max*100)+"%";
     }
-    document.getElementById("calcular").addEventListener("click",simular);
+
+    document.getElementById("producto").addEventListener("change", mostrarPrecio);
+    document.getElementById("calcular").addEventListener("click", simular);
+    mostrarPrecio(); // inicializa precio al cargar
   </script>
 </body>
 </html>
