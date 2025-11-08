@@ -4,17 +4,295 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IA Scoring | Booh! Finance</title>
-  <meta name="description" content="Evalúa el riesgo y límite de crédito de tu restaurante digital con el sistema de IA Scoring de Booh! Finance." />
+  <meta name="description" content="Calcula el score de tu restaurante digital y descubre tu límite de crédito con Booh! Finance.">
 
-  <!-- Fuente y CSS -->
+  <!-- Fuente -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css?v=13">
-  <script src="menu.js?v=13" defer></script> />
+
+  <style>
+  /* === VARIABLES Y BASE === */
+  :root {
+    --booh-blue: #00AFD8;
+    --accent: #28E1FF;
+    --bg: #05080E;
+    --bg-soft: #0B1018;
+    --text: #E6F1FA;
+    --text-muted: #8AA0B4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Roboto", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* === HEADER === */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,11,18,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+  .navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+  }
+  .navbar a {
+    color: var(--text);
+    font-weight: 500;
+    opacity: .85;
+  }
+  .navbar a:hover,
+  .navbar a.active {
+    color: var(--booh-blue);
+    opacity: 1;
+  }
+  .menu-toggle { display: none; }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(180deg,#08111A 0%, #05080E 100%);
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: .35;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(0,175,216,.25), rgba(0,0,0,.85));
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 750px;
+    padding: 40px 20px;
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+  }
+  .hero-ctas {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--booh-blue), var(--accent));
+    color: #001018;
+    border: none;
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--text);
+    background: transparent;
+  }
+
+  /* === SECCIONES === */
+  .section {
+    padding: 70px 0;
+  }
+  .section-alt {
+    background: linear-gradient(180deg, #0A111B 0%, #05080E 100%);
+  }
+  .section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+  .container {
+    width: min(1100px, 90%);
+    margin-inline: auto;
+  }
+  .grid {
+    display: grid;
+    gap: 20px;
+  }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+  /* === TARJETAS === */
+  .card {
+    background: var(--bg-soft);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  /* === PASOS === */
+  #como-funciona .step {
+    position: relative;
+    padding-top: 30px;
+  }
+  .step-number {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    color: #001018;
+    background: linear-gradient(180deg, var(--booh-blue), var(--accent));
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  /* === FORMULARIO === */
+  #inputs .form-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-field input,
+  .form-field select {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .form-actions {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 16px;
+  }
+  .hint {
+    color: var(--text-muted);
+    font-size: .9rem;
+  }
+
+  /* === GAUGE === */
+  .gauge-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 0.6;
+    margin: 0 auto;
+  }
+  .gauge-arc {
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(#FF6B6B 0turn, #FF6B6B 0.2turn, #F6C344 0.35turn, #20D489 0.5turn, transparent 0.5turn);
+    -webkit-mask: radial-gradient(100% 100% at 50% 100%, transparent 56%, #000 56.5%), linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    border-bottom-left-radius: 999px;
+    border-bottom-right-radius: 999px;
+  }
+  .gauge-needle {
+    --needle: 70;
+    position: absolute;
+    bottom: 6%;
+    left: 50%;
+    width: 2px;
+    height: 46%;
+    background: white;
+    transform-origin: 50% 100%;
+    transform: translateX(-50%) rotate(calc(-90deg + (var(--needle) * 1.8deg)));
+    transition: transform 1s ease-out;
+  }
+  .gauge-label {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 900;
+    font-size: 1.5rem;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+    color: var(--text-muted);
+  }
+  .legend .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-low { background: #20D489; }
+  .dot-mid { background: #F6C344; }
+  .dot-high { background: #FF6B6B; }
+
+  #resultado .kv {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  #resultado .kv .k { color: var(--text-muted); }
+  #resultado .kv .v { font-weight: 700; }
+  #resultado .note { color: var(--text-muted); font-size: .85rem; margin-top: 8px; }
+
+  /* === FOOTER === */
+  footer {
+    background: #070B12;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px 0;
+    font-size: .9rem;
+  }
+  </style>
 </head>
 <body>
-  <!-- HEADER (idéntico al resto del sitio) -->
+
+  <!-- HEADER -->
   <header>
     <nav class="navbar">
       <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
@@ -23,7 +301,7 @@
         <li><a href="index.html#how">Cómo funciona</a></li>
         <li><a href="index.html#benefits">Ventajas</a></li>
         <li><a href="index.html#ai">IA Pricing</a></li>
-        <li><a class="active" href="ia-scoring.html">IA Scoring</a></li>
+        <li><a class="active" href="#">IA Scoring</a></li>
         <li><a href="simulador.html">Simulador</a></li>
         <li><a href="index.html#contact">Contacto</a></li>
       </ul>
@@ -33,11 +311,12 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img class="hero-img" src="assets/hero-hostelero-grafica.jpg" alt="Hostelero revisando datos financieros" />
+    <img src="assets/hero-hostelero-grafica.jpg" alt="Hostelero revisando gráfica de ventas" class="hero-img">
     <div class="hero-overlay"></div>
-    <div class="container hero-content">
+    <div class="hero-content">
       <h1>Booh IA Scoring</h1>
-      <p>Conoce el score de tu negocio y accede a financiación inteligente basada en tus ventas reales, rating y recurrencia.</p>
+      <p>Analiza tus ventas y descubre tu score y límite de crédito al instante.  
+         Inteligencia artificial para impulsar tu negocio gastronómico.</p>
       <div class="hero-ctas">
         <a href="#inputs" class="btn btn-primary">Calcular mi score</a>
         <a href="#como-funciona" class="btn btn-ghost">Cómo funciona</a>
@@ -53,17 +332,17 @@
         <article class="card step">
           <div class="step-number">1</div>
           <h3>Conecta tus datos</h3>
-          <p>Ventas de Glovo, Just Eat, Uber Eats o TPV. Solo lectura, con tu autorización.</p>
+          <p>Ventas desde plataformas y TPV. Solo lectura, con tu autorización.</p>
         </article>
         <article class="card step">
           <div class="step-number">2</div>
           <h3>Analizamos tu rendimiento</h3>
-          <p>Volumen, recurrencia, rating, cancelaciones, ticket medio y antigüedad.</p>
+          <p>Evaluamos recurrencia, rating, cancelaciones, ticket medio y antigüedad.</p>
         </article>
         <article class="card step">
           <div class="step-number">3</div>
           <h3>Obten tu score</h3>
-          <p>Te mostramos tu puntuación, límite de crédito y tipo orientativo según tu riesgo.</p>
+          <p>Recibes tu puntuación 0–100, límite estimado y condiciones orientativas.</p>
         </article>
       </div>
     </div>
@@ -73,7 +352,7 @@
   <section id="inputs" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Introduce tus datos</h2>
-      <form class="card form-grid" id="form-scoring">
+      <form class="card form-grid">
         <div class="form-field"><label>Ventas mensuales (€)</label><input id="ventas" type="number" placeholder="18.500"></div>
         <div class="form-field"><label>Ticket medio (€)</label><input id="ticket" type="number" placeholder="19,80"></div>
         <div class="form-field"><label>Pedidos mensuales</label><input id="pedidos" type="number" placeholder="930"></div>
@@ -81,16 +360,12 @@
         <div class="form-field"><label>Rating (0–5)</label><input id="rating" type="number" placeholder="4,6"></div>
         <div class="form-field"><label>Cancelaciones (%)</label><input id="cancel" type="number" placeholder="2,3"></div>
         <div class="form-field"><label>Antigüedad (meses)</label><input id="months" type="number" placeholder="14"></div>
-        <div class="form-field">
-          <label>Estacionalidad</label>
-          <select id="season">
-            <option value="">Selecciona</option>
-            <option>Baja</option><option>Media</option><option>Alta</option>
-          </select>
+        <div class="form-field"><label>Estacionalidad</label>
+          <select id="season"><option value="">Selecciona</option><option>Baja</option><option>Media</option><option>Alta</option></select>
         </div>
         <div class="form-actions">
-          <button type="button" class="btn btn-primary" id="btn-calcular">Calcular score</button>
-          <p class="hint">Tus datos son confidenciales. No los almacenamos.</p>
+          <button type="button" id="btn-calcular" class="btn btn-primary">Calcular score</button>
+          <p class="hint">Tus datos son privados. No se almacenan.</p>
         </div>
       </form>
     </div>
@@ -102,9 +377,7 @@
       <h2 class="section-title">Resultado</h2>
       <div class="grid grid-2">
         <article class="card gauge">
-          <header class="card-header">
-            <h3>Tu score</h3><span class="badge" id="score-badge">Pendiente</span>
-          </header>
+          <header class="card-header"><h3>Tu score</h3><span class="badge" id="score-badge">Pendiente</span></header>
           <div class="gauge-wrap">
             <div class="gauge-arc"></div>
             <div class="gauge-needle" id="needle" style="--needle:70"></div>
@@ -116,7 +389,6 @@
             <li><span class="dot dot-high"></span>Alto</li>
           </ul>
         </article>
-
         <article class="card">
           <header class="card-header"><h3>Límite y condiciones</h3></header>
           <div class="kv">
@@ -131,29 +403,14 @@
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Preguntas frecuentes</h2>
-      <div class="accordion">
-        <details><summary>¿Necesito conectar mis cuentas?</summary><p>Para el score real sí. También puedes simular manualmente.</p></details>
-        <details><summary>¿Afecta a mi crédito?</summary><p>No realizamos consultas duras, solo tras aceptar una oferta.</p></details>
-        <details><summary>¿Cómo se devuelve?</summary><p>Mediante retenciones automáticas en tus liquidaciones.</p></details>
-      </div>
-    </div>
-  </section>
-
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Booh! Finance. Todos los derechos reservados.</p>
-    </div>
+  <footer>
+    © <span id="year"></span> Booh! Finance — Todos los derechos reservados.
   </footer>
 
   <!-- JS -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
     const btn = document.getElementById("btn-calcular");
     const needle = document.getElementById("needle");
     const scoreNum = document.getElementById("score-number");
