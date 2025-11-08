@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Booh Scoring | Booh! Finance</title>
-  <meta name="description" content="Sistema de scoring de Booh! Finance para evaluar riesgo y límite de crédito de restaurantes digitales." />
+  <title>IA Scoring | Booh! Finance</title>
+  <meta name="description" content="Evalúa el riesgo y límite de crédito de tu restaurante digital con el sistema de IA Scoring de Booh! Finance." />
 
-  <!-- Fuente -->
+  <!-- Fuente y CSS -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-   <header>
+  <!-- HEADER (idéntico al resto del sitio) -->
+  <header>
     <nav class="navbar">
       <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
       <ul>
@@ -22,7 +21,7 @@
         <li><a href="index.html#how">Cómo funciona</a></li>
         <li><a href="index.html#benefits">Ventajas</a></li>
         <li><a href="index.html#ai">IA Pricing</a></li>
-        <li><a href="index.html#scoring">IA Scoring</a></li>
+        <li><a class="active" href="ia-scoring.html">IA Scoring</a></li>
         <li><a href="simulador.html">Simulador</a></li>
         <li><a href="index.html#contact">Contacto</a></li>
       </ul>
@@ -32,16 +31,14 @@
 
   <!-- HERO -->
   <section class="hero">
-    <!-- Reemplaza esta imagen por una mezcla de gráfica + hostelero real -->
-    <!-- Ejemplo de ruta: /assets/hero-hostelero-grafica.jpg -->
-    <img class="hero-img" src="assets/hero-hostelero-grafica.jpg" alt="Restaurador mirando una gráfica de ventas" />
+    <img class="hero-img" src="assets/hero-hostelero-grafica.jpg" alt="Hostelero revisando datos financieros" />
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <h1>Booh Scoring</h1>
-      <p>Evaluamos el riesgo en tiempo real con tus ventas, tickets medios, recurrencia y señales de plataforma. Transparente y pensado para crecer tus pedidos.</p>
+      <h1>Booh IA Scoring</h1>
+      <p>Conoce el score de tu negocio y accede a financiación inteligente basada en tus ventas reales, rating y recurrencia.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#inputs">Calcular mi score</a>
-        <a class="btn btn-ghost" href="#como-funciona">Ver cómo funciona</a>
+        <a href="#inputs" class="btn btn-primary">Calcular mi score</a>
+        <a href="#como-funciona" class="btn btn-ghost">Cómo funciona</a>
       </div>
     </div>
   </section>
@@ -49,83 +46,49 @@
   <!-- CÓMO FUNCIONA -->
   <section id="como-funciona" class="section">
     <div class="container">
-      <h2 class="section-title">Cómo funciona el scoring</h2>
+      <h2 class="section-title">Cómo funciona</h2>
       <div class="grid grid-3">
         <article class="card step">
           <div class="step-number">1</div>
-          <h3>Conecta datos</h3>
-          <p>Ventas por plataforma (Glovo, Just Eat, Uber Eats), TPV y extractos bancarios (solo lectura). Sin fricción y con consentimiento.</p>
+          <h3>Conecta tus datos</h3>
+          <p>Ventas de Glovo, Just Eat, Uber Eats o TPV. Solo lectura, con tu autorización.</p>
         </article>
         <article class="card step">
           <div class="step-number">2</div>
-          <h3>Analizamos señales</h3>
-          <p>Volumen, estacionalidad, % repetición, tickets, rating, tiempos, cancelaciones y gasto publicitario. Todo ponderado por tu vertical.</p>
+          <h3>Analizamos tu rendimiento</h3>
+          <p>Volumen, recurrencia, rating, cancelaciones, ticket medio y antigüedad.</p>
         </article>
         <article class="card step">
           <div class="step-number">3</div>
-          <h3>Score & límite</h3>
-          <p>Te damos un <strong>score 0–100</strong>, un <strong>límite de crédito</strong> sugerido y un <strong>tipo</strong> acorde a tu riesgo.</p>
+          <h3>Obten tu score</h3>
+          <p>Te mostramos tu puntuación, límite de crédito y tipo orientativo según tu riesgo.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- INPUTS -->
+  <!-- FORMULARIO -->
   <section id="inputs" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Introduce tus datos</h2>
-      <form class="card form-grid" aria-labelledby="form-title">
-        <h3 id="form-title" class="sr-only">Formulario de inputs para scoring</h3>
-
+      <form class="card form-grid" id="form-scoring">
+        <div class="form-field"><label>Ventas mensuales (€)</label><input id="ventas" type="number" placeholder="18.500"></div>
+        <div class="form-field"><label>Ticket medio (€)</label><input id="ticket" type="number" placeholder="19,80"></div>
+        <div class="form-field"><label>Pedidos mensuales</label><input id="pedidos" type="number" placeholder="930"></div>
+        <div class="form-field"><label>Repetición (%)</label><input id="repeat" type="number" placeholder="32"></div>
+        <div class="form-field"><label>Rating (0–5)</label><input id="rating" type="number" placeholder="4,6"></div>
+        <div class="form-field"><label>Cancelaciones (%)</label><input id="cancel" type="number" placeholder="2,3"></div>
+        <div class="form-field"><label>Antigüedad (meses)</label><input id="months" type="number" placeholder="14"></div>
         <div class="form-field">
-          <label for="ventas-mensuales">Ventas mensuales (EUR)</label>
-          <input id="ventas-mensuales" name="ventas_mensuales" type="number" inputmode="decimal" placeholder="ej. 18.500" min="0">
-        </div>
-
-        <div class="form-field">
-          <label for="ticket-medio">Ticket medio (EUR)</label>
-          <input id="ticket-medio" name="ticket_medio" type="number" inputmode="decimal" placeholder="ej. 19.80" min="0" step="0.01">
-        </div>
-
-        <div class="form-field">
-          <label for="pedidos-mensuales">Pedidos mensuales</label>
-          <input id="pedidos-mensuales" name="pedidos_mensuales" type="number" inputmode="numeric" placeholder="ej. 930" min="0">
-        </div>
-
-        <div class="form-field">
-          <label for="repeticion">Repetición clientes (%)</label>
-          <input id="repeticion" name="repeticion" type="number" inputmode="decimal" placeholder="ej. 32" min="0" max="100" step="0.1">
-        </div>
-
-        <div class="form-field">
-          <label for="rating">Rating plataformas (0–5)</label>
-          <input id="rating" name="rating" type="number" inputmode="decimal" placeholder="ej. 4.6" min="0" max="5" step="0.1">
-        </div>
-
-        <div class="form-field">
-          <label for="cancelaciones">Cancelaciones (%)</label>
-          <input id="cancelaciones" name="cancelaciones" type="number" inputmode="decimal" placeholder="ej. 2.3" min="0" max="100" step="0.1">
-        </div>
-
-        <div class="form-field">
-          <label for="antiguedad">Antigüedad negocio (meses)</label>
-          <input id="antiguedad" name="antiguedad" type="number" inputmode="numeric" placeholder="ej. 14" min="0">
-        </div>
-
-        <div class="form-field">
-          <label for="estacionalidad">Estacionalidad (baja/alta)</label>
-          <select id="estacionalidad" name="estacionalidad">
+          <label>Estacionalidad</label>
+          <select id="season">
             <option value="">Selecciona</option>
-            <option value="baja">Baja</option>
-            <option value="media">Media</option>
-            <option value="alta">Alta</option>
+            <option>Baja</option><option>Media</option><option>Alta</option>
           </select>
         </div>
-
         <div class="form-actions">
-          <!-- Este botón está listo para enganchar a tu JS -->
-          <button type="button" id="btn-calcular" class="btn btn-primary">Calcular score</button>
-          <p class="hint">No guardamos datos sin tu permiso. Privacidad por diseño.</p>
+          <button type="button" class="btn btn-primary" id="btn-calcular">Calcular score</button>
+          <p class="hint">Tus datos son confidenciales. No los almacenamos.</p>
         </div>
       </form>
     </div>
@@ -136,52 +99,31 @@
     <div class="container">
       <h2 class="section-title">Resultado</h2>
       <div class="grid grid-2">
-        <!-- Gauge -->
-        <article class="card gauge" aria-live="polite">
+        <article class="card gauge">
           <header class="card-header">
-            <h3>Tu score</h3>
-            <span class="badge" id="score-badge" aria-label="Nivel de riesgo">Pendiente</span>
+            <h3>Tu score</h3><span class="badge" id="score-badge">Pendiente</span>
           </header>
-
-          <!-- Gauge semicírculo CSS. Actualiza el estilo con JS cambiando el atributo data-value (0–100). -->
-          <div class="gauge-wrap" data-value="72" id="gauge">
+          <div class="gauge-wrap">
             <div class="gauge-arc"></div>
-            <div class="gauge-needle" style="--needle: 72;"></div>
-            <div class="gauge-label"><span id="score-number">72</span>/100</div>
+            <div class="gauge-needle" id="needle" style="--needle:70"></div>
+            <div class="gauge-label"><span id="score-number">70</span>/100</div>
           </div>
-
           <ul class="legend">
-            <li><span class="dot dot-low"></span>Bajo riesgo (80–100)</li>
-            <li><span class="dot dot-mid"></span>Medio (60–79)</li>
-            <li><span class="dot dot-high"></span>Alto (&lt;60)</li>
+            <li><span class="dot dot-low"></span>Bajo riesgo</li>
+            <li><span class="dot dot-mid"></span>Medio</li>
+            <li><span class="dot dot-high"></span>Alto</li>
           </ul>
         </article>
 
-        <!-- Detalle -->
         <article class="card">
-          <header class="card-header">
-            <h3>Límite y condiciones sugeridas</h3>
-          </header>
-
+          <header class="card-header"><h3>Límite y condiciones</h3></header>
           <div class="kv">
-            <div><span class="k">Límite estimado</span><span class="v" id="limite-estimado">€ 12.500</span></div>
-            <div><span class="k">Tipo orientativo</span><span class="v" id="tipo-orientativo">9.8% TIN</span></div>
-            <div><span class="k">Plazo sugerido</span><span class="v" id="plazo-sugerido">3–6 meses</span></div>
-            <div><span class="k">Retención por liquidación</span><span class="v" id="retencion">15%–25%</span></div>
+            <div><span class="k">Límite estimado</span><span class="v" id="limite">€ 12.500</span></div>
+            <div><span class="k">Tipo orientativo</span><span class="v" id="tipo">9,8% TIN</span></div>
+            <div><span class="k">Plazo sugerido</span><span class="v" id="plazo">3–6 meses</span></div>
+            <div><span class="k">Retención</span><span class="v" id="retencion">15%–25%</span></div>
           </div>
-
-          <div class="factors">
-            <h4>Principales factores</h4>
-            <ul id="factores">
-              <li>Ventas estables + recurrencia sólida</li>
-              <li>Rating alto y pocas cancelaciones</li>
-              <li>Antigüedad &gt; 12 meses</li>
-            </ul>
-          </div>
-
-          <div class="note">
-            * Valores orientativos. El resultado final depende de la conexión a plataformas y banca.
-          </div>
+          <p class="note">* Valores orientativos. Dependen de tu conexión real con plataformas.</p>
         </article>
       </div>
     </div>
@@ -192,40 +134,36 @@
     <div class="container">
       <h2 class="section-title">Preguntas frecuentes</h2>
       <div class="accordion">
-        <details>
-          <summary>¿Necesito conectar mis cuentas?</summary>
-          <p>Para un score real, sí: plataformas de delivery y cuenta bancaria (solo lectura). También puedes simular con inputs manuales.</p>
-        </details>
-        <details>
-          <summary>¿Afecta a mi CIRBE / crédito?</summary>
-          <p>No hacemos consultas duras de crédito para el pre-scoring. Solo si aceptas una oferta firme.</p>
-        </details>
-        <details>
-          <summary>¿Cómo se devuelve?</summary>
-          <p>Mediante retenciones automáticas al detectar tus liquidaciones de plataforma o transferencias programadas.</p>
-        </details>
+        <details><summary>¿Necesito conectar mis cuentas?</summary><p>Para el score real sí. También puedes simular manualmente.</p></details>
+        <details><summary>¿Afecta a mi crédito?</summary><p>No realizamos consultas duras, solo tras aceptar una oferta.</p></details>
+        <details><summary>¿Cómo se devuelve?</summary><p>Mediante retenciones automáticas en tus liquidaciones.</p></details>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> Booh! Finance. Todos los derechos reservados.</p>
-      <nav aria-label="Legal">
-        <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
-        <a href="#">Contacto</a>
-      </nav>
     </div>
   </footer>
 
-  <!-- JS opcional mínimo para el año en el pie y placeholder del botón -->
+  <!-- JS -->
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // Hook del botón (listo para tu lógica de scoring)
-    document.getElementById('btn-calcular').addEventListener('click', () => {
-      // Aquí conectarás tu cálculo y actualizarás: #score-number, #gauge style, #score-badge, #limite-estimado, etc.
-      alert('Hook listo: conecta tu cálculo de scoring aquí.');
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const btn = document.getElementById("btn-calcular");
+    const needle = document.getElementById("needle");
+    const scoreNum = document.getElementById("score-number");
+    const badge = document.getElementById("score-badge");
+
+    btn.addEventListener("click", () => {
+      const score = Math.floor(Math.random() * 100);
+      needle.style.setProperty("--needle", score);
+      scoreNum.textContent = score;
+      if (score >= 80) { badge.textContent = "Bajo riesgo"; badge.style.color="#20D489"; }
+      else if (score >= 60) { badge.textContent = "Medio"; badge.style.color="#F6C344"; }
+      else { badge.textContent = "Alto"; badge.style.color="#FF6B6B"; }
     });
   </script>
 </body>
