@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IA Pricing | Booh! Finance</title>
+  <meta name="description" content="Booh! Finance IA Pricing: precios dinámicos basados en datos reales de ventas y comportamiento del mercado.">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+  :root {
+    --booh-blue: #00AFD8;
+    --accent: #28E1FF;
+    --bg: #05080E;
+    --bg-soft: #0B1018;
+    --text: #E6F1FA;
+    --text-muted: #8AA0B4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Roboto", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,11,18,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; max-width: 1200px; margin: 0 auto;
+  }
+  .logo { height: 40px; width: auto; }
+  .navbar ul {
+    display: flex; list-style: none; gap: 1.5rem; transition: all .3s ease;
+  }
+  .navbar a { color: var(--text); font-weight: 500; opacity: .85; }
+  .navbar a:hover, .navbar a.active { color: var(--booh-blue); opacity: 1; }
+  .menu-toggle {
+    display: none; flex-direction: column; justify-content: space-between;
+    width: 24px; height: 18px; background: none; border: none; cursor: pointer;
+  }
+  .menu-toggle span { height: 2px; background: #fff; border-radius: 2px; }
+
+  @media (max-width: 900px) {
+    .navbar ul {
+      position: absolute; top: 60px; right: 0; left: 0;
+      flex-direction: column; background: rgba(7,11,18,0.98);
+      max-height: 0; overflow: hidden; opacity: 0;
+    }
+    .navbar ul.open {
+      max-height: 420px; opacity: 1; padding: 16px 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .navbar ul li { text-align: center; padding: 10px 0; }
+    .menu-toggle { display: flex; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 70vh; display: grid; place-items: center;
+    overflow: hidden; text-align: center;
+    background: linear-gradient(180deg,#08111A 0%, #05080E 100%);
+  }
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .35;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(0,175,216,.25), rgba(0,0,0,.85));
+  }
+  .hero-content {
+    position: relative; z-index: 2; max-width: 750px; padding: 40px 20px;
+  }
+  .hero h1 { font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; }
+  .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px; border-radius: 999px; font-weight: 700; cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--booh-blue), var(--accent));
+    color: #001018; border: none;
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--text); background: transparent;
+  }
+
+  /* SECCIONES */
+  .section { padding: 70px 0; }
+  .section-alt {
+    background: linear-gradient(180deg, #0A111B 0%, #05080E 100%);
+  }
+  .section-title {
+    text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 700;
+  }
+  .container { width: min(1100px, 90%); margin-inline: auto; }
+  .grid { display: grid; gap: 20px; }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+  .card {
+    background: var(--bg-soft);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  /* BLOQUE DE PRECIOS */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .pricing-card {
+    background: var(--bg-soft);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .pricing-card h3 {
+    font-size: 1.4rem;
+    color: var(--booh-blue);
+    margin-bottom: 10px;
+  }
+  .price {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 8px 0 4px;
+  }
+  .pricing-card p { color: var(--text-muted); margin-bottom: 12px; }
+  .pricing-card .btn-primary { margin-top: 10px; }
+
+  /* SIMULADOR SIMPLE */
+  .simulator { text-align: center; max-width: 500px; margin: 0 auto; }
+  .simulator input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--bg-soft);
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .result {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 12px;
+    color: var(--booh-blue);
+  }
+
+  /* FAQ */
+  #faq details {
+    background: var(--bg-soft);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  #faq summary { font-weight: 600; cursor: pointer; }
+
+  /* FOOTER */
+  footer {
+    background: #070B12;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px 0;
+    font-size: .9rem;
+  }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html"><img src="img/logo-booh.png" alt="Booh Finance" class="logo"></a>
+      <ul id="menu">
+        <li><a href="index.html#home">Inicio</a></li>
+        <li><a href="index.html#how">Cómo funciona</a></li>
+        <li><a href="index.html#benefits">Ventajas</a></li>
+        <li><a class="active" href="#">IA Pricing</a></li>
+        <li><a href="ia-scoring.html">IA Scoring</a></li>
+        <li><a href="simulador.html">Simulador</a></li>
+        <li><a href="index.html#contact">Contacto</a></li>
+      </ul>
+      <button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img src="assets/hero-ia-pricing.jpg" alt="Gráficas de precios dinámicos en tablet" class="hero-img">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Booh IA Pricing</h1>
+      <p>Algoritmos de precios dinámicos para restaurantes digitales.  
+         Optimiza tus márgenes, ajusta tus precios y maximiza tus ventas.</p>
+      <a href="#simulador" class="btn btn-primary">Probar ahora</a>
+    </div>
+  </section>
+
+  <!-- QUÉ ES -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">¿Qué es el IA Pricing?</h2>
+      <p style="text-align:center; color:var(--text-muted); max-width:800px; margin:0 auto;">
+        IA Pricing es el motor de precios inteligentes de Booh! Finance.  
+        Se conecta con plataformas como Glovo, Just Eat o Uber Eats para analizar  
+        el comportamiento de la demanda, los precios de tu competencia y tus ventas en tiempo real.
+      </p>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Cómo funciona</h2>
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>1. Conecta tus plataformas</h3>
+          <p>Enlaza tus cuentas de delivery o TPV para recibir datos de ventas, precios y horarios.</p>
+        </article>
+        <article class="card">
+          <h3>2. Analizamos la competencia</h3>
+          <p>Detectamos los precios de productos similares en tu zona y el comportamiento de la demanda.</p>
+        </article>
+        <article class="card">
+          <h3>3. Recomendamos precios óptimos</h3>
+          <p>El algoritmo sugiere variaciones de precios que aumentan tu margen y tus ventas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Planes de uso</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Básico</h3>
+          <div class="price">€99/mes</div>
+          <p>Precio mensual fijo durante la vigencia del contrato.</p>
+          <a href="#" class="btn btn-primary">Empezar</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Pro</h3>
+          <div class="price">€199/mes</div>
+          <p>IA Pricing avanzado con integración total y soporte personalizado.</p>
+          <a href="#" class="btn btn-primary">Contratar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section id="simulador" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Simula tu precio óptimo</h2>
+      <div class="simulator card">
+        <input id="precio" type="number" placeholder="Precio actual (€)">
+        <input id="ventas" type="number" placeholder="Ventas mensuales">
+        <button id="calcular" class="btn btn-primary">Calcular nuevo precio</button>
+        <div class="result" id="resultado"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <details><summary>¿Cómo se calculan los precios?</summary><p>Mediante algoritmos que ponderan demanda, competencia y margen.</p></details>
+      <details><summary>¿Puedo aceptar o rechazar sugerencias?</summary><p>Sí. Puedes configurarlo manual o automático.</p></details>
+      <details><summary>¿Requiere conexión a plataformas?</summary><p>Solo si quieres usar datos en tiempo real.</p></details>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> Booh! Finance — Todos los derechos reservados.</footer>
+
+  <script>
+    // Año
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Menú móvil
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    toggle.addEventListener('click', () => menu.classList.toggle('open'));
+
+    // Simulador simple
+    document.getElementById("calcular").addEventListener("click", () => {
+      const precio = parseFloat(document.getElementById("precio").value || 0);
+      const ventas = parseFloat(document.getElementById("ventas").value || 0);
+      if (!precio || !ventas) return document.getElementById("resultado").textContent = "Introduce valores válidos";
+      const nuevo = (precio * 1.08).toFixed(2);
+      const extra = (ventas * (nuevo - precio)).toFixed(2);
+      document.getElementById("resultado").innerHTML = `Precio sugerido: <strong>€${nuevo}</strong><br>+ Beneficio estimado: <strong>€${extra}/mes</strong>`;
+    });
+  </script>
+</body>
+</html>
