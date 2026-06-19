@@ -1,0 +1,17 @@
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/hubrise/callback.php"
+  to = "/.netlify/functions/hubrise-callback"
+  status = 200
+
+[[redirects]]
+  from = "/api/hubrise-callback"
+  to = "/.netlify/functions/hubrise-callback"
+  status = 200
+
+[[redirects]]
+  from = "/callback.php"
+  to = "/.netlify/functions/hubrise-callback"
+  status = 200
