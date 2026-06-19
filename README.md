@@ -15,5 +15,13 @@ Landing page para captación de clientes de Booh Finance.
 - `script.js` → animaciones opcionales.
 - `/img` → imágenes del sitio.
 
+## 🔐 Callback HubRise en Netlify
+El callback OAuth se sirve con una Netlify Function definida en `netlify/functions/hubrise-callback.js`.
+
+Configura estas variables en Netlify antes de usar la integracion:
+- `HUBRISE_CLIENT_SECRET` (obligatoria)
+- `HUBRISE_CLIENT_ID` (opcional; por defecto usa el client ID publico de la app)
+- `HUBRISE_REDIRECT_URI` (opcional; por defecto `https://booh-finance.app/api/hubrise/callback.php`)
+
 ## 💡 Contacto
 Financiación inteligente para restaurantes digitales.
